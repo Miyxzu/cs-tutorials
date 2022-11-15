@@ -2,6 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "Launch simpleGUI",
+      "request": "launch",
+      "mainClass": "simpleGUI",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "lldb",
       "request": "launch",
