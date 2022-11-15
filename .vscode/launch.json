@@ -3,6 +3,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch nestedloop",
+      "request": "launch",
+      "mainClass": "nestedloop",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
+      "name": "Launch forloop",
+      "request": "launch",
+      "mainClass": "forloop",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
+      "name": "Launch whileloop",
+      "request": "launch",
+      "mainClass": "whileloop",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
       "name": "Launch simpleGUI",
       "request": "launch",
       "mainClass": "simpleGUI",
