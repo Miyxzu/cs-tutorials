@@ -14,7 +14,7 @@ public class nestedloop {
         for(int i = 1; i <= row; i++){
             System.out.println();
             for(int j = 1; j <= column; j++){
-                System.out.println(symbol);
+                System.out.print(symbol);
             }
         }
 
