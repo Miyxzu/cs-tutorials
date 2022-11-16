@@ -1,3 +1,4 @@
+# CMake Files
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
@@ -9,6 +10,8 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+
+#idk why DS_Store exists
 .DS_Store
 ._.DS_Store
 **/.DS_Store
