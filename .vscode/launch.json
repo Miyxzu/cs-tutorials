@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch arrays",
+      "request": "launch",
+      "mainClass": "arrays",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
       "name": "Launch nestedloop",
       "request": "launch",
       "mainClass": "nestedloop",
