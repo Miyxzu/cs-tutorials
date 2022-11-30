@@ -27,5 +27,8 @@
     "**/.*/**",
     "**/.vscode",
     "**/.vscode/**"
+  ],
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar"
   ]
 }

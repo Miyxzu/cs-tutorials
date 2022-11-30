@@ -8,8 +8,8 @@ int main(int argc, char const *argv[])
     double temp;
     cin >> temp;
 
-    double farenheit = ((temp * 9)/ 5) + 32;
+    double fahrenheit = ((temp * 9)/ 5) + 32;
 
-    cout << "The temperature in Farenheit is " << farenheit << endl;
+    cout << "The temperature in Fahrenheit is " << fahrenheit << endl;
     return 0;
 }
