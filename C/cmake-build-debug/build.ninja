@@ -36,7 +36,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = /Users/66000/tutorial$ shit/C/cmake-build-debug/
+cmake_ninja_workdir = /Users/66000/cs-tutorials/C/cmake-build-debug/
 # =============================================================================
 # Object build statements for EXECUTABLE target C
 
@@ -46,7 +46,7 @@ cmake_ninja_workdir = /Users/66000/tutorial$ shit/C/cmake-build-debug/
 
 build cmake_object_order_depends_target_C: phony || CMakeFiles/C.dir
 
-build CMakeFiles/C.dir/main.c.o: C_COMPILER__C_Debug /Users/66000/tutorial$ shit/C/main.c || cmake_object_order_depends_target_C
+build CMakeFiles/C.dir/main.c.o: C_COMPILER__C_Debug /Users/66000/cs-tutorials/C/main.c || cmake_object_order_depends_target_C
   DEP_FILE = CMakeFiles/C.dir/main.c.o.d
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -mmacosx-version-min=11.6 -std=gnu99
   OBJECT_DIR = CMakeFiles/C.dir
@@ -76,7 +76,7 @@ build C: C_EXECUTABLE_LINKER__C_Debug CMakeFiles/C.dir/main.c.o
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd "/Users/66000/tutorial shit/C/cmake-build-debug" && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/66000/cs-tutorials/C/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -87,7 +87,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd "/Users/66000/tutorial shit/C/cmake-build-debug" && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S"/Users/66000/tutorial shit/C" -B"/Users/66000/tutorial shit/C/cmake-build-debug"
+  COMMAND = cd /Users/66000/cs-tutorials/C/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S/Users/66000/cs-tutorials/C -B/Users/66000/cs-tutorials/C/cmake-build-debug
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -103,7 +103,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 
 #############################################
-# Folder: /Users/66000/tutorial shit/C/cmake-build-debug
+# Folder: /Users/66000/cs-tutorials/C/cmake-build-debug
 
 build all: phony C
 
