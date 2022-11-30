@@ -18,3 +18,5 @@ _deps
 **/._.DS_Store
 .DS_Store
 /.DS_Store
+*.ninja
+*.json
