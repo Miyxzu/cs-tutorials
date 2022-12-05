@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch foreach",
+      "request": "launch",
+      "mainClass": "foreach",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
+      "name": "Launch twoDListArray",
+      "request": "launch",
+      "mainClass": "twoDListArray",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
       "name": "Launch listarrays",
       "request": "launch",
       "mainClass": "listarrays",

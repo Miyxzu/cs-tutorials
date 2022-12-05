@@ -9,11 +9,19 @@ public class listarrays {
         food.add("beef");
 
         food.set(0, "lamb");
-        food.remove(1);
-        food.clear();
+        System.out.println(food);
+        System.out.println();
 
         for(int i = 0; i < food.size(); i++){
             System.out.println(food.get(i));
         }
+        System.out.println();
+
+        food.remove(1);
+        System.out.println(food);
+        System.out.println();
+        
+        food.clear();
+        System.out.println(food);
     }
 }
