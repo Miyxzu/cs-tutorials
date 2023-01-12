@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class arrays {
@@ -24,7 +25,8 @@ public class arrays {
         System.out.print("Enter a new teammate: ");
         team[3] = in.next();
 
-        System.out.println(team[3]);
+        //Print list of inputed data in array
+        System.out.println(Arrays.toString(team));
 
         in.close();
     }

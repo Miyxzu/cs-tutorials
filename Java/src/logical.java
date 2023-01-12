@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class logical {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        System.out.println("AND operator");
         System.out.print("Enter the current temperature: ");
         double temp = in.nextDouble();
 

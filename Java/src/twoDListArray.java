@@ -8,15 +8,20 @@ public class twoDListArray {
         gentlemen.add("Jean");
         gentlemen.add("Connor");
         gentlemen.add("Taerim");
+        gentlemen.add("");
 
         ArrayList<String> ogs = new ArrayList<>();
         ogs.add("Noah");
         ogs.add("Kiran");
+        ogs.add("Richardson");
+        ogs.add("");
+
 
         ArrayList<String> realOnes = new ArrayList<>();
         realOnes.add("Sutrisno");
         realOnes.add("Alan");
         realOnes.add("Will");
+        realOnes.add("Gav");
 
         ArrayList<String> other = new ArrayList<>();
         other.add("Rishahb");
