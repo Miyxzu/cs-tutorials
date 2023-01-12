@@ -8,13 +8,13 @@ public class twoDListArray {
         gentlemen.add("Jean");
         gentlemen.add("Connor");
         gentlemen.add("Taerim");
-        gentlemen.add("");
+        gentlemen.add("Kyoungho");
 
         ArrayList<String> ogs = new ArrayList<>();
         ogs.add("Noah");
         ogs.add("Kiran");
         ogs.add("Richardson");
-        ogs.add("");
+        ogs.add("Kyle");
 
 
         ArrayList<String> realOnes = new ArrayList<>();
