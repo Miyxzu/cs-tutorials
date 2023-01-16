@@ -29,5 +29,6 @@ public class arrays {
         System.out.println(Arrays.toString(team));
 
         in.close();
+        
     }
 }
