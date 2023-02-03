@@ -3,6 +3,34 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch inheritance",
+      "request": "launch",
+      "mainClass": "inheritance",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
+      "name": "Launch mainObjOfArray",
+      "request": "launch",
+      "mainClass": "mainObjOfArray",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
+      "name": "Launch varScope",
+      "request": "launch",
+      "mainClass": "varScope",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
+      "name": "Launch mainVarScope",
+      "request": "launch",
+      "mainClass": "mainVarScope",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
       "name": "Launch foreach",
       "request": "launch",
       "mainClass": "foreach",
