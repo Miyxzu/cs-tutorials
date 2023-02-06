@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch exception",
+      "request": "launch",
+      "mainClass": "exception",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
       "name": "Launch inheritance",
       "request": "launch",
       "mainClass": "inheritance",
