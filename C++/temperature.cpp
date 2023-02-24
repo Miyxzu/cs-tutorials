@@ -3,7 +3,8 @@
 using namespace std;
 
 int main(int argc, char const *argv[])
-{
+{   
+    //Code with Mosh ver.
     cout << "Enter the current temperature in Celsius: ";
     double temp;
     cin >> temp;
@@ -12,4 +13,7 @@ int main(int argc, char const *argv[])
 
     cout << "The temperature in Fahrenheit is " << fahrenheit << endl;
     return 0;
+
+    //Bro Code ver.
+    
 }
