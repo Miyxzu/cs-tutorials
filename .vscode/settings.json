@@ -30,5 +30,7 @@
   ],
   "java.project.referencedLibraries": [
     "lib/**/*.jar"
-  ]
+  ],
+  "cmake.configureOnOpen": false,
+  "C_Cpp_Runner.useAddressSanitizer": false
 }

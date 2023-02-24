@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch filing",
+      "request": "launch",
+      "mainClass": "filing",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
       "name": "Launch exception",
       "request": "launch",
       "mainClass": "exception",
@@ -106,8 +113,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/Users/66000/cs-tutorials",
-      "program": "/Users/66000/cs-tutorials/build/Debug/outDebug",
+      "cwd": "/Users/66000/cs-tutorials/C++",
+      "program": "/Users/66000/cs-tutorials/C++/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
