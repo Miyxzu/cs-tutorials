@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "filingWrite",
+      "request": "launch",
+      "mainClass": "filingWrite",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
       "name": "Launch filing",
       "request": "launch",
       "mainClass": "filing",
