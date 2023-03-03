@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class switchstate {
+public class switchState {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.print("Enter top player name (case sensitive): ");

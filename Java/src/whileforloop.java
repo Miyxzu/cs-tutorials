@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class whileforloop {
+public class whileForLoop {
     public static void main(String[] args) {
         try (Scanner in = new Scanner(System.in)) {
             String name = "";

@@ -1,4 +1,4 @@
-public class twoDarrays {
+public class twoDArrays {
     public static void main(String[] args) {
         String[][] fruit = new String[3][3];
 

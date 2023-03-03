@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class listarrays {
+public class listArrays {
     public static void main(String[] args) {
         ArrayList<String> food = new ArrayList<String>();
 

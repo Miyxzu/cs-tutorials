@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class foreach {
+public class forEach {
     public static void main(String[] args) {
         String[] westCurrency = {"GBP", "EUR", "CAD", "USD"};
         ArrayList<String> eastCurrency = new ArrayList<String>();
