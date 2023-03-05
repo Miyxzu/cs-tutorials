@@ -1,3 +1,5 @@
+package Objects;
+
 public class inheritance {
     public static void main(String[] args) {
         Car cr = new Car();
