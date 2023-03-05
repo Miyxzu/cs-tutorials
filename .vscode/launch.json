@@ -5,6 +5,20 @@
       "type": "java",
       "name": "filingWrite",
       "request": "launch",
+      "mainClass": "ImportBased.filingWrite",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
+      "name": "filing",
+      "request": "launch",
+      "mainClass": "ImportBased.filing",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
+      "name": "filingWrite",
+      "request": "launch",
       "mainClass": "filingWrite",
       "projectName": "cs-tutorials_b9ba0ead"
     },
@@ -120,8 +134,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/Users/66000/cs-tutorials/C++",
-      "program": "/Users/66000/cs-tutorials/C++/build/Debug/outDebug",
+      "cwd": "/Users/66000/cs-tutorials",
+      "program": "/Users/66000/cs-tutorials/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
