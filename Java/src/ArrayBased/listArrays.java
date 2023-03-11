@@ -1,3 +1,5 @@
+package ArrayBased;
+
 import java.util.ArrayList;
 
 public class listArrays {
@@ -24,6 +26,10 @@ public class listArrays {
         System.out.println(food);
         System.out.println();
         
+        food.add(null);
+
+        System.out.println(food);
+
         food.clear();
     }
 }
