@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "filingRead",
+      "request": "launch",
+      "mainClass": "ImportBased.filingRead",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
+      "name": "listArrays",
+      "request": "launch",
+      "mainClass": "ArrayBased.listArrays",
+      "projectName": "cs-tutorials_b9ba0ead"
+    },
+    {
+      "type": "java",
       "name": "filingWrite",
       "request": "launch",
       "mainClass": "ImportBased.filingWrite",

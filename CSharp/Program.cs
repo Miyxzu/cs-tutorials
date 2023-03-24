@@ -5,10 +5,12 @@ namespace CSharp
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("dotNET test");
-            Console.WriteLine("now i write a new line");
-            Console.WriteLine("Get pinged 100 times");
+            String x = "This is fun!";
 
+            for(int i = 0; i < x.Length; i++)
+            {
+                Console.Write(x[i] + " ");
+            }
         }
     }
 }

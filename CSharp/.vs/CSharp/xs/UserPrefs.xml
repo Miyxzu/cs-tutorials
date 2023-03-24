@@ -1,25 +1,26 @@
 ﻿<Properties StartupConfiguration="{F0AB25D0-417C-4164-9EC5-3DA090F27170}|Default">
+  <MonoDevelop.Ide.ItemProperties.CSharp PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Test.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="typeCast.cs">
     <Files>
-      <File FileName="Test.cs" Line="1" Column="1" />
+      <File FileName="Program.cs" />
+      <File FileName="typeCast.cs" Line="15" Column="63" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="CSharp" expanded="True">
             <Node name="CSharp" expanded="True">
-              <Node name="Test.cs" selected="True" />
+              <Node name="typeCast.cs" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.CSharp PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
