@@ -241,6 +241,24 @@ header{
     text-decoration: underline;
 }
 
+.agree{
+    font-size: .9em;
+    font-weight: 500;
+    color: #102130;
+    justify-content: space-between;
+    align-items: center;
+    margin: -15px 0 15px;
+    text-align: center;
+}
+
+.agree label input{
+    accent-color: #102130;
+    margin-right: 3px;
+    width: 11px;
+    height: 11px;
+    cursor: pointer;
+}
+
 .btn{
     display: block;
     width: 100%;

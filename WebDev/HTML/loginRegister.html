@@ -5,10 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Register Page | exsu</title>
-    <link ref="stylesheet" href="/WebDev/CSS/page.css">
+    <link rel="stylesheet" href="/WebDev/CSS/loginRegister.css">
 </head>
 <body>
-
     <header>
         <h2 class="logo"></h2>
         <nav class="navigation">
@@ -42,7 +41,7 @@
                     <input type="password" required>
                     <label>Password</label>
                 </div>
-                <div class="remember-forget">
+                <div class="remember-forgot">
                     <label>
                         <input type="checkbox">Remember Me
                     </label>
@@ -52,18 +51,18 @@
                 <div class="login-register">
                     <p>
                         Don't have an account?
-                        <a href="#" class="register-link"></a>
+                        <a href="#" class="register-link">Register</a>
                     </p>
                 </div>
              </form>
         </div>
 
         <div class="form-box register">
-            <h2>Register</h2>
+            <h2>Login</h2>
             <form action="#">
                 <div class="input-box">
                     <span class="icon">
-                        <ion-icon name="person"></ion-icon>
+                        <ion-icon name="Person"></ion-icon>
                     </span>
                     <input type="text" required>
                     <label>Username</label>
@@ -82,26 +81,23 @@
                     <input type="password" required>
                     <label>Password</label>
                 </div>
-                <div class="input-box">
-                    <span class="icon">
-                        <ion-icon name="lock-closed"></ion-icon>
-                    </span>
-                    <input type="password" required>
-                    <label>Confirm Password</label>
+                <div class="agree">
+                    <label>
+                        <input type="checkbox">I Agree With The Terms & Conditions
+                    </label>
                 </div>
                 <button type="submit" class="btn">Register</button>
                 <div class="login-register">
                     <p>
-                        Already have an account?
-                        <a href="#" class="login-link"></a>
+                        Have an account?
+                        <a href="#" class="login-link">Login</a>
                     </p>
                 </div>
             </form>
-
-
+       </div>
     </div>
 
-    <script src="/WebDev/JS/page.jsx"></script>
+    <script src="/WebDev/JS/loginRegister.jsx"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
