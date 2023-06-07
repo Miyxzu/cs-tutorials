@@ -32,5 +32,6 @@
     "lib/**/*.jar"
   ],
   "cmake.configureOnOpen": false,
-  "C_Cpp_Runner.useAddressSanitizer": false
+  "C_Cpp_Runner.useAddressSanitizer": false,
+  "C_Cpp.default.compilerPath": "/usr/bin/clang++"
 }

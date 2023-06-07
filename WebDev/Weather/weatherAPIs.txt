@@ -1,0 +1,6 @@
+weatherapi api key = 35f16f7b4f75441d9a265948231605
+
+waetherapi 
+
+openweatherapp api key = a09dfb46166fef6b2f9fd33d751cba46
+
