@@ -28,14 +28,15 @@ public class book {
     private Boolean checkISBN(int isbn) {
         String numString = Integer.toString(isbn);
         int temp;
-        int num = 0;
+        int num;
         int sum = 0;
         int check;
 
         for (int i = 0; i < numString.length(); i++) {
             num = Integer.parseInt(numString.substring(i, i + 1));
             if (numString.substring(numString.length() - 1)) {
-                
+                check = num;
+                break;
             }
             if (i % 2 == 0) {
                 temp = num * 3;
@@ -49,7 +50,11 @@ public class book {
         if (sum % 10 != 0) {
             return false;
         } else {
-            sum % 10;
+            temp = sum % 10;
+        }
+
+        if((10 - temp) != check){
+            return false;
         }
 
         return true;
