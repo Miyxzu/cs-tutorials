@@ -1,5 +1,3 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&display=swap"); */
-
 * {
     margin: 0;
     padding: 0;
@@ -65,7 +63,7 @@ body {
 
 .search-box button:hover {
     color: #fff;
-    background: #06283d;
+    background-color: #06283d;
 }
 
 .search-box i {
@@ -73,7 +71,7 @@ body {
     color: #06283d;
     font-size: 28px;
 }
- 
+
 .weather-box {
     text-align: center;
 }
@@ -108,11 +106,11 @@ body {
 .weather-details {
     width: 100%;
     display: flex;
-    /* justify-content: space-between;
-    margin-top: 30px; */
+    justify-content: space-between;
+    margin-top: 30px;
 }
 
-.weather-details .humidity .weather-details .wind {
+.weather-details .humidity, .weather-details .wind {
     display: flex;
     align-items: center;
     width: 50%;
@@ -120,7 +118,7 @@ body {
 }
 
 .weather-details .humidity {
-    padding-left: 20px;
+    padding-right: 20px;
     justify-content: flex-start;
 }
 
@@ -128,59 +126,3 @@ body {
     padding-right: 20px;
     justify-content: flex-end;
 }
-
-.weather-details i {
-    color: #06283d;
-    font-size: 26px;
-    margin-right: 10px;
-    margin-top: 6px;
-}
-
-.weather-details span {
-    color: #06283d;
-    font-size: 22px;
-    font-weight: 500;
-}
-
-.weather-details p {
-    color: #06283d;
-    font-size: 14px;
-    font-weight: 500;
-}
-/*
-.not-found {
-    width: 100%;
-    text-align: center;
-    margin-top: 50px;
-    scale: 0;
-    opacity: 0;
-    display: none;
-}
-
-.not-found img{
-    width: 70%;
-}
-
-.not-found p {
-    color: #06283d;
-    font-size: 22px;
-    font-weight: 500;
-    margin-top: 12px;
-}
-
-.weather-box .weather-details{
-    scale: 0;
-    opacity: 0;
-}
-
-.fade-in{
-    animation: 0.5s fadeIn forwards;
-    animation-delay: 0.5s;
-}
-
-@keyframes fadeIn {
-    to {
-        scale: 1;
-        opacity: 1;
-    }
-} */

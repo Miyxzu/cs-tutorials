@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "test",
+      "request": "launch",
+      "mainClass": "test",
+      "projectName": "cs-tutorials_803bf313"
+    },
+    {
+      "type": "java",
+      "name": "images2D",
+      "request": "launch",
+      "mainClass": "images2D",
+      "projectName": "cs-tutorials_803bf313"
+    },
+    {
+      "type": "java",
       "name": "filingRead",
       "request": "launch",
       "mainClass": "ImportBased.filingRead",
