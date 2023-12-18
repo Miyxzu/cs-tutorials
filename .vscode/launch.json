@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "sudokuMain",
+      "request": "launch",
+      "mainClass": "IB.sudokuMain",
+      "projectName": "cs-tutorials_803bf313"
+    },
+    {
+      "type": "java",
+      "name": "sudokuTest",
+      "request": "launch",
+      "mainClass": "IB.sudokuTest",
+      "projectName": "cs-tutorials_803bf313"
+    },
+    {
+      "type": "java",
       "name": "test",
       "request": "launch",
       "mainClass": "test",

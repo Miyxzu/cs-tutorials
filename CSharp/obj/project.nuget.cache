@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8qDPpxhZg0Fu3jBdvjGQDXANU3YFA5LZcYLZ3JXsCQazFz9+Y+SpNqloTRWExoM9vEqhRCHsK+NZwFTRuCanlw==",
+  "dgSpecHash": "E2wt1k5xZwISj1J8LbwPZD8Rs+CFzJIa3Ipw6KOV3rVsFf0BacLFudolpHuo8Ieuuwxo2y5gWwvV2kKQ094gCA==",
   "success": true,
-  "projectFilePath": "/Users/66000/cs-tutorials/CSharp/CSharp.csproj",
+  "projectFilePath": "C:\\Users\\exsu\\cs-tutorials\\CSharp\\CSharp.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
