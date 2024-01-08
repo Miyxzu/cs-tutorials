@@ -235,15 +235,15 @@ namespace CSharp
             }
 
             ArrayList sorted = new ArrayList();
-            for (var i = 0; i < live.Count; i++)
+            for (int i = 0; i < live.Count; i++)
             {
                 if(sorted.Count == 0)
                 {
-                    sorted.Add(live[i]);
+                    sorted.Add(live.get(i));
                 }
                 else
                 {
-                    for (var j = 0; j < sorted.Count; j++)
+                    for (int j = 0; j < sorted.Count; j++)
                     {
                         if(((Streamer)live[i]).getViewers() > ((Streamer)sorted[j]).getViewers())
                         {
