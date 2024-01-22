@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "LList",
+      "request": "launch",
+      "mainClass": "DSA.LinkedList.LList",
+      "projectName": "cs-tutorials_803bf313"
+    },
+    {
+      "type": "java",
       "name": "sudokuMain",
       "request": "launch",
       "mainClass": "IB.sudokuMain",
