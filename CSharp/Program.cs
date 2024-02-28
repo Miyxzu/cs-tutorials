@@ -3,7 +3,7 @@ namespace CSharp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Maifn(string[] args)
         {
             
         }

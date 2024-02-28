@@ -239,7 +239,7 @@ namespace CSharp
             {
                 if(sorted.Count == 0)
                 {
-                    sorted.Add(live.get(i));
+                    sorted.Add(live[i]);
                 }
                 else
                 {
