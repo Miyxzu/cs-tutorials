@@ -10,13 +10,14 @@ namespace CSharp
             int choice = 0;
             while (choice != -1)
             {
-                Console.WriteLine("Welcome to Spotify Queue System");
+                Console.WriteLine("Welcome to the Spotify Queue System");
                 Console.WriteLine("1) Queue Song");
                 Console.WriteLine("2) Dequeue Song");
                 Console.WriteLine("3) See Next Track");
                 Console.WriteLine("4) Latest Added Song");
                 Console.WriteLine("5) See Queue");
-                Console.WriteLine("6) Exit");
+                Console.WriteLine("6) Clear Queue");
+                Console.WriteLine("7) Exit");
                 choice = Convert.ToInt32(Console.ReadLine());
 
                 switch (choice)
@@ -34,10 +35,12 @@ namespace CSharp
                             }
                             else
                             {
-                                continue;
+                                songQueue.Enqueue(song);
+                                Console.WriteLine("Song Queued");
                             }
                         }
-                        songQueue.Enqueue(song);
+                        Console.WriteLine("Press Enter to Continue");
+                        Console.ReadLine();
                         Console.Clear();
                         break;
                     case 2:
@@ -55,6 +58,8 @@ namespace CSharp
                         {
                             Console.WriteLine("Song not in Queue");
                         }
+                        Console.WriteLine("Press Enter to Continue");
+                        Console.ReadLine();
                         Console.Clear();                       
                         break;
                     case 3:
@@ -80,6 +85,13 @@ namespace CSharp
                         Console.Clear();
                         break;
                     case 6:
+                        songQueue.Clear();
+                        Console.WriteLine("Queue Cleared");
+                        Console.WriteLine("Press Enter to Continue");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case 7:
                         choice = -1;
                         Console.Clear();
                         break;

@@ -34,5 +34,9 @@
   "cmake.configureOnOpen": false,
   "C_Cpp_Runner.useAddressSanitizer": false,
   "C_Cpp.default.compilerPath": "/usr/bin/clang++",
-  "cmake.sourceDirectory": "C:/Users/exsu/cs-tutorials/C++"
+  "cmake.sourceDirectory": "C:/Users/exsu/cs-tutorials/C++",
+  "java.project.sourcePaths": [
+    "Java/src",
+    "IB"
+  ]
 }

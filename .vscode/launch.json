@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "spotifyQueue",
+      "request": "launch",
+      "mainClass": "spotifyQueue",
+      "projectName": "cs-tutorials_803bf313"
+    },
+    {
+      "type": "java",
       "name": "LList",
       "request": "launch",
       "mainClass": "DSA.LinkedList.LList",
