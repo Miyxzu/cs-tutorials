@@ -31,19 +31,16 @@ namespace CSharp
                             {
                                 Console.WriteLine("Song Already in Queue");
                                 song = null;
+                                clearScreen();
                                 break;
                             }
-                            else
-                            {
-                                songQueue.Enqueue(song);
-                                Console.WriteLine("Song Queued");
-                            }
                         }
-                        Console.WriteLine("Press Enter to Continue");
-                        Console.ReadLine();
-                        Console.Clear();
+                        songQueue.Enqueue(song);
+                        Console.WriteLine("Song Queued");
+                        clearScreen();
                         break;
                     case 2:
+                        Console.WriteLine("Queue: ");
                         foreach (string s in songQueue)
                         {
                             Console.WriteLine(s);
@@ -53,26 +50,20 @@ namespace CSharp
                         if (songQueue.Contains(removeSong))
                         {
                             songQueue = new Queue<string>(songQueue.ToArray().Where(val => val != removeSong));
+                            Console.WriteLine("Song Removed");
+                            clearScreen();
+                            break;
                         }
-                        else
-                        {
-                            Console.WriteLine("Song not in Queue");
-                        }
-                        Console.WriteLine("Press Enter to Continue");
-                        Console.ReadLine();
-                        Console.Clear();                       
+                        Console.WriteLine("Song not in Queue");
+                        clearScreen();
                         break;
                     case 3:
                         Console.WriteLine("Next Song is: " + songQueue.Peek());
-                        Console.WriteLine("Press Enter to Continue");
-                        Console.ReadLine();
-                        Console.Clear();
+                        clearScreen();
                         break;
                     case 4:
                         Console.WriteLine("Latest Song is: " + songQueue.ToArray()[songQueue.Count - 1]);
-                        Console.WriteLine("Press Enter to Continue");
-                        Console.ReadLine();
-                        Console.Clear();
+                        clearScreen();
                         break;
                     case 5:
                         Console.WriteLine("Queue is: ");
@@ -80,16 +71,12 @@ namespace CSharp
                         {
                             Console.WriteLine(s);
                         }
-                        Console.WriteLine("Press Enter to Continue");
-                        Console.ReadLine();
-                        Console.Clear();
+                        clearScreen();
                         break;
                     case 6:
                         songQueue.Clear();
                         Console.WriteLine("Queue Cleared");
-                        Console.WriteLine("Press Enter to Continue");
-                        Console.ReadLine();
-                        Console.Clear();
+                        clearScreen();
                         break;
                     case 7:
                         choice = -1;
@@ -101,6 +88,13 @@ namespace CSharp
                 }
             }
             Console.WriteLine("Thank You for using Spotify Queue System");
+        }
+
+        static void clearScreen()
+        {
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

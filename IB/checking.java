@@ -1,5 +1,3 @@
-package others;
-
 public class checking {
     public static void main(String[] args) {
         double scores[][] = new double[20][8];

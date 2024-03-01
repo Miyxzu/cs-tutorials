@@ -1,5 +1,3 @@
-package IB;
-
 import java.util.*;
 import java.io.*;
 
