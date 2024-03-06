@@ -7,8 +7,8 @@ import java.io.IOException;
 public class filingWrite {
     public static void main(String[] args) {
         try {
-            FileWriter filewrite = new FileWriter("/Users/66000/cs-tutorials/Java/src/ImportBased/kickback.txt");
-            File file = new File("/Users/66000/cs-tutorials/Java/src/ImportBased/kickback.txt");
+            FileWriter filewrite = new FileWriter("Miyxzu/cs-tutorials/Java/src/ImportBased/kickback.txt");
+            File file = new File("Miyxzu/cs-tutorials/Java/src/ImportBased/kickback.txt");
             if (file.exists()) {
                 System.out.println("File does exist ");
                 filewrite.write("ハッピーで埋め尽くして\nレストインピースまで行こうぜ");
