@@ -1,5 +1,3 @@
-package databases;
-
 import com.opencsv.*;
 import java.io.*;
 import java.util.*;
