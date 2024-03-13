@@ -1,9 +1,6 @@
 public class checking {
     public static void main(String[] args) {
-        double scores[][] = new double[20][8];
-        double scoreNon2D[] = new double[10];
-        String names[] = new String[20];
-        String nameNon2D[] = new String[10];
+        
     }
 
     int avgScore(int scores[]) {
@@ -14,14 +11,13 @@ public class checking {
         return total / 10;
     }
 
-    double bSearchNames(String n, String names[], Double Scores[]) {
-        boolean found = false;
-        int x, l = 0, r = names.length - 1;
+    int bSearchNames(String n, String names[], Double Scores[]) {
+        int x = -1, l = 0, r = names.length - 1;
         while (l <= r) {
             int mid = l + (r - l) / 2;
             if(n.compareTo(names[mid]) == 0) {
-                found = true;
                 x = mid;
+                break; // Exit the loop once the name is found
             }
             if(n.compareTo(names[mid]) > 0) {
                 l = mid + 1;
@@ -29,10 +25,7 @@ public class checking {
                 r = mid - 1;
             }
         }
-        if(!found) {
-            return -1.0;
-        }
-        return Scores[x];
+        return x;
     }
 
     double getHighestScores(double Scores[][]) {
