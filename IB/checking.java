@@ -16,12 +16,12 @@ public class checking {
 
     double bSearchNames(String n, String names[], Double Scores[]) {
         boolean found = false;
-        int l = 0, r = names.length - 1;
+        int x, l = 0, r = names.length - 1;
         while (l <= r) {
             int mid = l + (r - l) / 2;
             if(n.compareTo(names[mid]) == 0) {
                 found = true;
-                return Scores[mid];
+                x = mid;
             }
             if(n.compareTo(names[mid]) > 0) {
                 l = mid + 1;
@@ -32,6 +32,7 @@ public class checking {
         if(!found) {
             return -1.0;
         }
+        return Scores[x];
     }
 
     double getHighestScores(double Scores[][]) {

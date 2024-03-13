@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "spotifyPlaylist",
+      "request": "launch",
+      "mainClass": "spotifyPlaylist",
+      "projectName": "cs-tutorials_803bf313"
+    },
+    {
+      "type": "java",
       "name": "spotifyQueue",
       "request": "launch",
       "mainClass": "spotifyQueue",
