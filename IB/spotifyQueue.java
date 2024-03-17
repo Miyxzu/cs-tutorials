@@ -4,7 +4,7 @@ public class spotifyQueue {
     public static void main(String[] args) {
         Queue<String> songQueue = new LinkedList<String>();
         int choice = 0;
-        Scanner sc = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         while(choice != -1){
             System.out.println("Welcome to the Spotify Queue System\n" +
                             "1) Add a song to the queue\n" +
@@ -16,11 +16,11 @@ public class spotifyQueue {
                             "7) Exit");
             String song, lastsong = "";
             Boolean found = false;
-            choice = sc.nextInt();
+            choice = in.nextInt();
             switch(choice){
                 case 1:
                     System.out.println("Enter the song name: ");
-                    song = sc.next();
+                    song = in.next();
 
                     for (String s : songQueue) {
                         if (s.equals(song)) {
@@ -46,7 +46,7 @@ public class spotifyQueue {
                     }
 
                     System.out.println("What song would you like to remove?");
-                    song = sc.next();
+                    song = in.next();
 
                     for(String s : songQueue){
                         if (s.equals(song)) {
@@ -92,12 +92,14 @@ public class spotifyQueue {
             }
         }
         System.out.println("Thank you for using the Spotify Queue System");
+        in.close();
     }
 
     static void clearScreen() {
-        Scanner sc = new Scanner(System.in); // Declare and initialize the Scanner object
+        @SuppressWarnings("resource")
+        Scanner in = new Scanner(System.in); // Declare and initialize the Scanner object
         System.out.println("Press Enter to continue");
-        sc.nextLine();
+        in.nextLine();
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }

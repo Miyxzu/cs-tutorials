@@ -11,6 +11,9 @@ public class csvDB {
         readDataOpenCSV();
     }
 
+    /**
+     * 
+     */
     public static void writeData() {
         File file = new File("./IB/data.csv");
         try {
@@ -30,7 +33,6 @@ public class csvDB {
             writer.close();
 
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
     }

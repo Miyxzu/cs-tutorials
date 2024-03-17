@@ -20,6 +20,13 @@ public class spotifyPlaylist {
             writer = new CSVWriter(outputfile);
             String[] header = { "Name", "Artist", "Album" };
             writer.writeNext(header);
+            List<String[]> data = new ArrayList<String[]>();
+            data.add(new String[] { "Song1", "Artist1", "Album1" });
+            data.add(new String[] { "Song2", "Artist20", "Album2" });
+            data.add(new String[] { "Song3", "Artist30", "Album30" });
+            data.add(new String[] { "Song40", "Artist4", "Album40" });
+            data.add(new String[] { "Song50", "Artist50", "Album5" });
+            writer.writeAll(data);
             writer.close();
         } catch (Exception e) {
             // TODO: handle exception
