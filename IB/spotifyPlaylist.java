@@ -116,6 +116,64 @@ public class spotifyPlaylist {
         }
     }
 
+    public void removeSong(String title, String artist, String album, String playlist) {
+        File file = new File("./IB/playlistFolder/" + playlist + ".csv");
+        CSVReader reader = null;
+        List<String[]> csvBody = new ArrayList<>();
+        try {
+            reader = new CSVReader(new FileReader(file));
+            String[] nextRecord;
+            while ((nextRecord = reader.readNext()) != null) {
+                if (nextRecord[0].equals(title) && nextRecord[1].equals(artist) && nextRecord[2].equals(album)) {
+                    continue;
+                }
+                csvBody.add(nextRecord);
+            }
+            reader.close();
+
+            CSVWriter writer = new CSVWriter(new FileWriter(file));
+            writer.writeAll(csvBody);
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editSong(String playlist, String title, String artist, String album, String field, String newValue) {
+        File file = new File("./IB/playlistFolder/" + playlist + ".csv");
+        CSVReader reader = null;
+        List<String[]> csvBody = new ArrayList<>();
+        try {
+            reader = new CSVReader(new FileReader(file));
+            String[] nextRecord;
+            while ((nextRecord = reader.readNext()) != null) {
+                if (nextRecord[0].equals(title) && nextRecord[1].equals(artist) && nextRecord[2].equals(album)) {
+                    switch (field.toLowerCase()) {
+                        case "title":
+                            nextRecord[0] = newValue;
+                            break;
+                        case "artist":
+                            nextRecord[1] = newValue;
+                            break;
+                        case "album":
+                            nextRecord[2] = newValue;
+                            break;
+                    }
+                }
+                csvBody.add(nextRecord);
+            }
+            reader.close();
+
+            CSVWriter writer = new CSVWriter(new FileWriter(file));
+            writer.writeAll(csvBody);
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void readData(String playlist) {
         try {
             CSVReader csvReader = new CSVReader(new FileReader("./IB/playlistFolder/" + playlist + ".csv"));
@@ -129,8 +187,38 @@ public class spotifyPlaylist {
         }
     }
 
-    public void sortPlaylist() {
-        
+    public void sortPlaylist(String playlist, String field) {
+        File file = new File("./IB/playlistFolder/" + playlist + ".csv");
+        CSVReader reader = null;
+        List<String[]> csvBody = new ArrayList<>();
+        try {
+            reader = new CSVReader(new FileReader(file));
+            String[] nextRecord;
+            while ((nextRecord = reader.readNext()) != null) {
+                csvBody.add(nextRecord);
+            }
+            reader.close();
+
+            switch (field.toLowerCase()) {
+                case "title":
+                    csvBody.sort(Comparator.comparing(a -> a[0]));
+                    break;
+                case "artist":
+                    csvBody.sort(Comparator.comparing(a -> a[1]));
+                    break;
+                case "album":
+                    csvBody.sort(Comparator.comparing(a -> a[2]));
+                    break;
+            }
+
+            File sortedFile = new File("./IB/playlistFolder/" + playlist + "Sorted.csv");
+            CSVWriter writer = new CSVWriter(new FileWriter(sortedFile));
+            writer.writeAll(csvBody);
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void clearScreen() {
