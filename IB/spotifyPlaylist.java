@@ -19,36 +19,6 @@ public class spotifyPlaylist {
         //     "6) Clear the queue\n" +
         //     "7) Exit");
         // }
-        sp.readData("test");
-
-        TimeUnit.SECONDS.sleep(5);
-
-        sp.renamePlaylist("test", "testNew");
-
-        // TimeUnit.SECONDS.sleep(2);
-
-        // sp.readData("testNew");
-        
-        // TimeUnit.SECONDS.sleep(5);
-
-        // sp.removePlaylist("testNew");
-
-        TimeUnit.SECONDS.sleep(2);
-
-        sp.createPlaylist("dsg");
-        sp.createPlaylist("anotherTest");
-
-        TimeUnit.SECONDS.sleep(2);
-
-        sp.addSong("Song1", "Artist1", "Album1", "dsg");
-        sp.addSong("Song2", "Artist2", "Album2", "dsg");
-        sp.addSong("Song3", "Artist3", "Album3", "anotherTest");
-        sp.readData("dsg");
-        sp.removePlaylist("anotherTest");
-
-        TimeUnit.SECONDS.sleep(5);
-        sp.removePlaylist("dsg");
-        sp.removePlaylist("testNew");
     }
 
     public spotifyPlaylist() throws InterruptedException {
@@ -62,13 +32,6 @@ public class spotifyPlaylist {
             CSVWriter writer = new CSVWriter(outputfile);
             String[] header = { "Name", "Artist", "Album" };
             writer.writeNext(header);
-            // List<String[]> data = new ArrayList<String[]>();
-            // data.add(new String[] { "Song1", "Artist1", "Album1" });
-            // data.add(new String[] { "Song2", "Artist20", "Album2" });
-            // data.add(new String[] { "Song3", "Artist30", "Album30" });
-            // data.add(new String[] { "Song40", "Artist4", "Album40" });
-            // data.add(new String[] { "Song50", "Artist50", "Album5" });
-            // writer.writeAll(data);
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,8 +88,9 @@ public class spotifyPlaylist {
 
     public void addSong(String title, String artist, String album, String playlist) {
         File file = new File("./IB/playlistFolder/" + playlist + ".csv");
+        CSVReader reader = null;
         try {
-            CSVReader reader = new CSVReader(new FileReader(file));
+            reader = new CSVReader(new FileReader(file));
             String[] nextRecord;
             while ((nextRecord = reader.readNext()) != null) {
                 if (nextRecord[0].equals(title) && nextRecord[1].equals(artist) && nextRecord[2].equals(album)) {
@@ -141,6 +105,14 @@ public class spotifyPlaylist {
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
