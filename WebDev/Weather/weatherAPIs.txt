@@ -1,7 +1,5 @@
 weatherapi api key = 4e144f8a41b54b519e1231234232709
 
-meteomatics = https://www.meteomatics.com/en/api/getting-started/
-
 openweatherapp api key = a09dfb46166fef6b2f9fd33d751cba46
 
 i need to reset these keys again for better access
