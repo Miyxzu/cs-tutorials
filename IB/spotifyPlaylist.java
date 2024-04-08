@@ -1,7 +1,8 @@
-import java.util.concurrent.*;
 import java.util.*;
+import java.util.stream.*;
 import com.opencsv.*;
 import java.io.*;
+import java.nio.file.*;
 
 public class spotifyPlaylist {
     public static void main(String[] args) throws InterruptedException, IOException {
@@ -46,6 +47,7 @@ public class spotifyPlaylist {
                     break;
                 case 4:
                     System.out.println("Enter the name of the playlist you want to view: ");
+                    System.out.println(sp.listFiles());
                     playlist = in.next();
                     sp.readData(playlist);
                     sp.clearScreen();
@@ -102,7 +104,7 @@ public class spotifyPlaylist {
                     choice = -1;
                     break;
                 case 10:
-                    System.out.println(sp.listFiles(mainDir));
+                    System.out.println(sp.listFiles());
                     sp.clearScreen();
                     break;
                 default:
@@ -113,14 +115,12 @@ public class spotifyPlaylist {
         in.close();
     }
 
-    public static String mainDir = "./src/databases/playlistFolder";
-
     public spotifyPlaylist() throws InterruptedException {
-        File dir = new File("./src/databases/playlistFolder");
+        File dir = new File("./IB/playlistFolder/");
         if (!dir.exists()) {
             dir.mkdir();
         }
-        File file = new File("./src/databases/playlistFolder/default.csv");
+        File file = new File("./IB/playlistFolder/default.csv");
         try {
             FileWriter outputfile = new FileWriter(file);
             CSVWriter writer = new CSVWriter(outputfile);
@@ -134,7 +134,7 @@ public class spotifyPlaylist {
 
     public void createPlaylist(String name) {
         try {
-            File file = new File("./src/databases/playlistFolder/" + name + ".csv");
+            File file = new File("./IB/playlistFolder/" + name + ".csv");
             if (file.createNewFile()) {
                 FileWriter outputfile = new FileWriter(file);
                 CSVWriter writer = new CSVWriter(outputfile);
@@ -151,9 +151,9 @@ public class spotifyPlaylist {
     }
 
     public void renamePlaylist(String oldName, String newName) {
-        File fileOld = new File("./src/databases/playlistFolder/" + oldName + ".csv");
+        File fileOld = new File("./IB/playlistFolder/" + oldName + ".csv");
         if (fileOld.exists()) {
-            File fileNew = new File("./src/databases/playlistFolder/" + newName + ".csv");
+            File fileNew = new File("./IB/playlistFolder/" + newName + ".csv");
             fileOld.renameTo(fileNew);
             System.out.println("Playlist Successfully Renamed: " + oldName + " -> " + newName);
         } else {
@@ -163,7 +163,7 @@ public class spotifyPlaylist {
 
     public void removePlaylist(String name) {
         try {
-            File file = new File("./src/databases/playlistFolder/" + name + ".csv");
+            File file = new File("./IB/playlistFolder/" + name + ".csv");
             if (file.exists()) {
                 if (file.delete()) {
                     System.out.println("Playlist Successfully Removed: " + name);
@@ -179,7 +179,7 @@ public class spotifyPlaylist {
     }
 
     public void addSong(String title, String artist, String album, String playlist) {
-        File file = new File("./src/databases/playlistFolder/" + playlist + ".csv");
+        File file = new File("./IB/playlistFolder/" + playlist + ".csv");
         if(!file.exists()){
             CSVReader reader = null;
             try {
@@ -214,7 +214,7 @@ public class spotifyPlaylist {
     }
 
     public void removeSong(String title, String artist, String album, String playlist) {
-        File file = new File("./src/databases/playlistFolder/" + playlist + ".csv");
+        File file = new File("./IB/playlistFolder/" + playlist + ".csv");
         if (file.exists()) {
             CSVReader reader = null;
             List<String[]> csvBody = new ArrayList<>();
@@ -243,7 +243,7 @@ public class spotifyPlaylist {
     }
 
     public void editSong(String playlist, String title, String artist, String album, String field, String newValue) {
-        File file = new File("./src/databases/playlistFolder/" + playlist + ".csv");
+        File file = new File("./IB/playlistFolder/" + playlist + ".csv");
         if (file.exists()) {
             CSVReader reader = null;
             List<String[]> csvBody = new ArrayList<>();
@@ -283,7 +283,7 @@ public class spotifyPlaylist {
 
     public void readData(String playlist) {
         try {
-            CSVReader csvReader = new CSVReader(new FileReader("./src/databases/playlistFolder/" + playlist + ".csv"));
+            CSVReader csvReader = new CSVReader(new FileReader("./IB/playlistFolder/" + playlist + ".csv"));
             String[] nextRecord;
             while ((nextRecord = csvReader.readNext()) != null) {
                 System.out.printf("%-11s %-11s %-11s%n", nextRecord[0], nextRecord[1], nextRecord[2]);
@@ -295,20 +295,20 @@ public class spotifyPlaylist {
     }
 
     public void sortPlaylist(String playlist, String field) {
-        File dir = new File("./src/databases/playlistFolder/sorted/");
+        File dir = new File("./IB/playlistFolder/sorted/");
         if (!dir.exists()) {
             dir.mkdir();
         }
 
         try {
             System.out.println("Playlists: ");
-            listFiles("./src/databases/playlistFolder/sorted/");
+            listFiles();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         System.out.println();
-        File file = new File("./src/databases/playlistFolder/sorted/" + playlist + ".csv");
+        File file = new File("./IB/playlistFolder/sorted/" + playlist + ".csv");
         if (file.exists()) {
             CSVReader reader = null;
             List<String[]> csvBody = new ArrayList<>();
@@ -332,7 +332,7 @@ public class spotifyPlaylist {
                         break;
                 }
     
-                File sortedFile = new File("./src/databases/playlistFolder/" + playlist + "Sorted.csv");
+                File sortedFile = new File("./IB/playlistFolder/" + playlist + "Sorted.csv");
                 CSVWriter writer = new CSVWriter(new FileWriter(sortedFile));
                 writer.writeAll(csvBody);
                 writer.flush();
@@ -354,8 +354,8 @@ public class spotifyPlaylist {
         System.out.flush();
     }
 
-    public Set<String> listFiles(String dir) throws IOException {
-        try (Stream<Path> stream = Files.list(Paths.get(dir))) {
+    public Set<String> listFiles() throws IOException {
+        try (Stream<Path> stream = Files.list(Paths.get("./IB/playlistFolder/"))) {
             return stream
                     .filter(file -> !Files.isDirectory(file))
                     .map(Path::getFileName)
@@ -367,7 +367,7 @@ public class spotifyPlaylist {
     public List<String[]> listSongs(String playlist) {
         List<String[]> songs = new ArrayList<>();
         try {
-            CSVReader csvReader = new CSVReader(new FileReader("./src/databases/playlistFolder/" + playlist + ".csv"));
+            CSVReader csvReader = new CSVReader(new FileReader("./IB/playlistFolderr/" + playlist + ".csv"));
             String[] nextRecord;
             while ((nextRecord = csvReader.readNext()) != null) {
                 songs.add(nextRecord);
@@ -377,15 +377,5 @@ public class spotifyPlaylist {
             e.printStackTrace();
         }
         return songs;
-    }
-
-    public void getPlaylists() {
-        try {
-            System.out.println("Playlists: ");
-            listFiles("./src/databases/playlistFolder/");
-            System.out.println();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
