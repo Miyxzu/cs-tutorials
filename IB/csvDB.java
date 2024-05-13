@@ -39,7 +39,7 @@ public class csvDB {
 
     public static void readDataOpenCSV() {
         try {
-            CSVReader csvReader = new CSVReader(new FileReader("./src/databases/data.csv"));
+            CSVReader csvReader = new CSVReader(new FileReader("./IB/data.csv"));
             String[] nextRecord;
             while ((nextRecord = csvReader.readNext()) != null) {
                 for (String cell : nextRecord) {
@@ -55,7 +55,7 @@ public class csvDB {
 
     public static void readDataBufferedRead() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("./src/databases/data.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("./IB/data.csv"));
             String line;
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
