@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "csvDB",
+      "request": "launch",
+      "mainClass": "csvDB",
+      "projectName": "cs-tutorials_17981307"
+    },
+    {
+      "type": "java",
+      "name": "recursion",
+      "request": "launch",
+      "mainClass": "DSA.recursion",
+      "projectName": "cs-tutorials_17981307"
+    },
+    {
+      "type": "java",
       "name": "spotifyPlaylist",
       "request": "launch",
       "mainClass": "spotifyPlaylist",
