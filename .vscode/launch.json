@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "spoonacular",
+      "request": "launch",
+      "mainClass": "APIs.spoonacular",
+      "projectName": "cs-tutorials_17981307"
+    },
+    {
+      "type": "java",
       "name": "csvDB",
       "request": "launch",
       "mainClass": "csvDB",
