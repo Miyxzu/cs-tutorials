@@ -21,3 +21,5 @@ _deps
 *.ninja
 *.json
 
+#Hide the vscode folder
+.vscode/
