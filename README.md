@@ -1,3 +1,3 @@
-# CS/Programming Tutorials
- Files from Java, C++, Web Dev, C# tutorials <br />
- Using this repo as for reference
+# dev "Tutorials"
+ this is less of a tutorials page and more of an "i document how i code and my dedication to it"
+ crazy right?
