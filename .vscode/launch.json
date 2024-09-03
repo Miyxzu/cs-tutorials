@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "codegen",
+      "request": "launch",
+      "mainClass": "otherStuff.codegen",
+      "projectName": "cs-tutorials_17981307"
+    },
+    {
+      "type": "java",
+      "name": "perfectNumber",
+      "request": "launch",
+      "mainClass": "otherStuff.perfectNumber",
+      "projectName": "cs-tutorials_17981307"
+    },
+    {
+      "type": "java",
       "name": "spoonacular",
       "request": "launch",
       "mainClass": "APIs.spoonacular",

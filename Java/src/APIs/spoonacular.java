@@ -9,6 +9,7 @@ public class spoonacular {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         String key = "35e52844f4a943399e87ae7901d75ec4";
+        
         System.out.print("Enter an ingredient > ");
         String ingredient = in.nextLine();
         System.out.print("How many max grams of fat per serving? > ");
