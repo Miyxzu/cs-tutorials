@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "spotifyQueue",
+      "request": "launch",
+      "mainClass": "spotifyQueue",
+      "projectName": "cs-tutorials_17981307"
+    },
+    {
+      "type": "java",
       "name": "codegen",
       "request": "launch",
       "mainClass": "otherStuff.codegen",

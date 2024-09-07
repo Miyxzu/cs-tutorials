@@ -36,6 +36,7 @@ public class spotifyQueue {
                         lastsong = song;
                         System.out.println("Song added to queue");
                         clearScreen();
+                        break;
                     } else {
                         break;
                     }
