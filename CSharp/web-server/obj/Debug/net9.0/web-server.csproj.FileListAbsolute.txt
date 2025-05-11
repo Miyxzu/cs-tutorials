@@ -1,0 +1,15 @@
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\bin\Debug\net9.0\web-server.deps.json
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\bin\Debug\net9.0\web-server.dll
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\bin\Debug\net9.0\web-server.pdb
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\obj\Debug\net9.0\web-server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\obj\Debug\net9.0\web-server.AssemblyInfoInputs.cache
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\obj\Debug\net9.0\web-server.AssemblyInfo.cs
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\obj\Debug\net9.0\web-server.csproj.CoreCompileInputs.cache
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\obj\Debug\net9.0\web-server.sourcelink.json
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\obj\Debug\net9.0\web-server.dll
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\obj\Debug\net9.0\refint\web-server.dll
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\obj\Debug\net9.0\web-server.pdb
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\obj\Debug\net9.0\ref\web-server.dll
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\bin\Debug\net9.0\web-server.exe
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\bin\Debug\net9.0\web-server.runtimeconfig.json
+C:\Users\exsu\Development\cs-tutorials\CSharp\web-server\obj\Debug\net9.0\web-server.genruntimeconfig.cache

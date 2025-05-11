@@ -6,7 +6,7 @@ const error = document.querySelector('.not-found');
 
 search.addEventListener('click', () => {
  
-    const apiKey = 'api-key-here';
+    const apiKey = 'a09dfb46166fef6b2f9fd33d751cba46';
     const city = document.querySelector('.search-box input').value;
 
     if(city === '') {
@@ -69,6 +69,4 @@ search.addEventListener('click', () => {
     }).catch(err => {
         console.log(err);
     });
-
-
 });

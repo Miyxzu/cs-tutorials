@@ -38,5 +38,6 @@
   "java.project.sourcePaths": [
     "Java/src",
     "IB"
-  ]
+  ],
+  "java.compile.nullAnalysis.mode": "automatic"
 }
