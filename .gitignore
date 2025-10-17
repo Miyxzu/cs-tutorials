@@ -1,8 +1,9 @@
 # C++ Files
-C++/output
+/C++/output
 
-# hiding another git repo thats in here
-Java/codecrafters-shell-java/
+# C# Files
+/CSharp/web-server/bin
+/CSharp/web-server/obj
 
 #Hide the vscode folder
 .vscode/
