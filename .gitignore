@@ -1,7 +1,8 @@
 # C++ Files
-c++/output
+C++/output
 
-
+# hiding another git repo thats in here
+Java/codecrafters-shell-java/
 
 #Hide the vscode folder
 .vscode/
