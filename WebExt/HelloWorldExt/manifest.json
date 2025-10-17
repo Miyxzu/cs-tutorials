@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "Hello Extension",
+    "description": "Hello Extensions of the world!",
+    "version": "1.0",
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "hello_extensions.png"
+    }
+}

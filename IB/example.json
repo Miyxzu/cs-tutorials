@@ -1,0 +1,23 @@
+{
+    "blockedWebsites":{
+        "youtube.com":{
+            "name": "YouTube",
+            "url": "http://youtube.com",
+            "allowedPermissions": ["notifications", "sound"],
+            "whitelisted": false
+        },
+        "x.com":{
+            "name": "X",
+            "url": "http://x.com",
+            "allowedPermissions": ["notifications"],
+            "whitelisted": true
+        },
+        "example.com":{
+            "name": "Example Website",
+            "url": "http://example.com",
+            "allowedPermissions": [],
+            "whitelisted": false
+        }
+    }
+}
+
