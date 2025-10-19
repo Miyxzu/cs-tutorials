@@ -1,13 +1,14 @@
 # C++ Files
-/C++/output
+C++/output/
 
 # C# Files
-/CSharp/web-server/bin
-/CSharp/web-server/obj
+CSharp/web-server/bin/
+CSharp/web-server/obj/
+CSharp/general/obj/
 
-#Hide the vscode folder
+# VS Code
 .vscode/
 
-#For ugit
+# Python build/artifacts
 __pycache__/
 *.egg-info/
