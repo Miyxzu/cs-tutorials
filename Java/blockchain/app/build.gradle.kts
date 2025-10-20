@@ -24,8 +24,8 @@ dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
 
-    implementation("com.google.code.gson:gson:2.12.1")
-    implementation("org.bouncycastle:bcprov-jdk18on:1.80")
+    implementation("com.google.code.gson:gson:2.13.1")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.82")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
