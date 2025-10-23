@@ -2,16 +2,24 @@ package assessmentA;
 
 import java.util.*;
 
+
+/**
+ * Main application class for the Plant Species Database
+ */
 public class App {
     static Scanner in;
 
+    /**
+     * Main method to run the Plant Species Database application
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
         in = new Scanner(System.in);
         plantSpeciesDB db = new plantSpeciesDB();
         int choice = 0;
         String[] valid = { "name", "region", "length", "width", "a", "d" };
         String search, name = null, region = null;
-        double length, width;
+        double length = 0.0, width = 0.0;
 
         do {
             try {
@@ -32,15 +40,34 @@ public class App {
                     // Add Plant Species
                     case 1:
                         in.nextLine(); // Consume leftover newline
-                        System.out.print("Species Name\n>> ");
+                        System.out.print("\nSpecies Name\n>> ");
                         name = in.nextLine();
                         System.out.print("Region of Origin\n>> ");
                         region = in.nextLine();
-                        System.out.print("Length (cm)\n>> ");
-                        length = in.nextDouble();
-                        System.out.print("Width (cm)\n>> ");
-                        width = in.nextDouble();
 
+                        // Read and validate Length
+                        while (length <= 1.3 || length >= 25000) {
+                            System.out.print("Length (mm)\n>> ");
+                            length = in.nextDouble();
+                            if (length <= 1.3) {
+                                System.out.println("Length must be greater than 1.3");
+                            } else if (length >= 25000) {
+                                System.out.println("Length must be less than 25000");
+                            }
+                        }
+
+                        // Read and validate Width
+                        while (length <= 1.3 || length >= 25000) {
+                            System.out.print("Width (mm)\n>> ");
+                            width = in.nextDouble();
+                            if (width <= 1) {
+                                System.out.println("Width must be greater than 1");
+                            } else if (width >= 3000) {
+                                System.out.println("Width must be less than 3000");
+                            }
+                        }
+
+                        // Check if species does not exist and add
                         if (db.addPlantSpecies(name, region, width, length)) {
                             System.out.println("Species entry added successfully");
                         } else {
@@ -48,21 +75,27 @@ public class App {
                         }
                         clearScreen();
                         break;
-                    
+
                     // Edit Species Entry
                     case 2:
+                        in.nextLine(); // Consume leftover newline
                         db.displayDatabase();
 
-                        System.out.print("Enter the name of the species you want to edit:\n>> ");
+                        System.out.print("\nEnter the name of the species you want to edit:\n>> ");
                         name = in.nextLine();
-                        db.editSpeciesEntry(name);
+                        db.editSpeciesEntry(name, in);
                         clearScreen();
                         break;
-                    
+
                     // Remove Plant Species
                     case 3:
+                        in.nextLine(); // Consume leftover newline
                         db.displayDatabase();
 
+                        System.out.print("\nEnter the name of the species you want to remove:\n>> ");
+                        name = in.nextLine();
+
+                        // Check if species exists and remove
                         if (db.removeSpecies(name)) {
                             System.out.println("Species entry removed successfully");
                         } else {
@@ -73,6 +106,7 @@ public class App {
 
                     // Display Species Database
                     case 4:
+                        in.nextLine(); // Consume leftover newline
                         String sort;
 
                         do {
@@ -81,7 +115,7 @@ public class App {
                         } while (!Arrays.asList(valid).contains(search.toLowerCase()));
 
                         do {
-                            System.out.print("Asc (a) or Desc (d)");
+                            System.out.print("Asc (a) or Desc (d)\n>> ");
                             sort = in.nextLine();
                         } while (!Arrays.asList(valid).contains(sort.toLowerCase()));
 
@@ -91,6 +125,7 @@ public class App {
 
                     // Search Database
                     case 5:
+                        in.nextLine(); // Consume leftover newline
                         int select;
                         name = null;
                         region = null;
@@ -151,8 +186,10 @@ public class App {
 
                     // Advanced/Wildcard Search
                     case 6:
+                        in.nextLine(); // Consume leftover newline
                         String check = "";
-                        System.out.print("Enter starting or ending name of Species (i.e. Heli* / *ing):\n>> ");
+
+                        System.out.print("\nEnter starting or ending name of Species (i.e. Heli* / *ing):\n>> ");
                         search = in.nextLine();
                         for (int i = 0; i < search.length(); i++) {
                             if (search.substring(i).contains("*")) {
@@ -168,15 +205,18 @@ public class App {
                         db.wildcardSearch(check);
                         clearScreen();
                         break;
-                    
+
                     // Calculate Evaporation Rate
                     case 7:
-                        System.out.print("Enter Species Name:\n>> ");
+                        db.displayDatabase();
+                        in.nextLine(); // Consume leftover newline
+
+                        System.out.print("\nEnter Species Name:\n>> ");
                         name = in.nextLine();
                         System.out.println(name + "'s Evaporation Rate is: " + db.getEvaporationRate(name) + " mm/day");
                         clearScreen();
                         break;
-                    
+
                     // Exit
                     case 8:
                         choice = -1;
@@ -185,7 +225,6 @@ public class App {
                         System.out.println("Invalid option");
                 }
             } catch (InputMismatchException e) {
-                // TODO: handle exception
                 System.out.println("Invalid Input");
                 in.next();
                 clearScreen();

@@ -5,8 +5,6 @@ import java.util.*;
 /**
  * A class to manage a database of plany species.
  * 
- * @author ppx
- * @version 1.0
  */
 public class plantSpeciesDB {
     ArrayList<plantSpecies> plantSpeciesDB;
@@ -30,6 +28,7 @@ public class plantSpeciesDB {
     public boolean addPlantSpecies(String name, String region, double w, double l) {
         boolean speciesExists = false;
 
+        // Check if species already exists
         for (plantSpecies i : plantSpeciesDB) {
             if (i.getSpeciesName().equalsIgnoreCase(name)) {
                 speciesExists = true;
@@ -37,11 +36,12 @@ public class plantSpeciesDB {
             }
         }
 
+        // If species does not exist, add to database
         if (!speciesExists) {
             plantSpeciesDB.add(new plantSpecies(name, region, l, w));
-            return true;
+            return true; // Species added successfully
         } else {
-            return false;
+            return false; // Species already exists
         }
     }
 
@@ -52,51 +52,54 @@ public class plantSpeciesDB {
      * @return Returns true if the species was removed, false if it does not exist
      */
     public boolean removeSpecies(String name) {
+
+        // Using iterator to safely remove while iterating
         Iterator<plantSpecies> iterator = plantSpeciesDB.iterator();
         while (iterator.hasNext()) {
             plantSpecies species = iterator.next();
+
+            // Check for matching species name
             if (species.getSpeciesName().equalsIgnoreCase(name)) {
                 iterator.remove();
-                return true;
+                return true; // Species found and removed
             }
         }
-        return false;
+        return false; // Species not found
     }
 
     /**
      * Edits an existing species entry in the database
      * 
      * @param name Name of the species to be edited
+     * @param in Reuses Scanner from main
      */
-    public void editSpeciesEntry(String name) {
+    public void editSpeciesEntry(String name, Scanner in) {
         int choice = 0;
         plantSpecies edited = null;
-        Scanner in = new Scanner(System.in);
         for (plantSpecies i : plantSpeciesDB) {
             if (i.getSpeciesName().equalsIgnoreCase(name)) {
-                // Edit logic here
                 do {
                     System.out.print("Edit:\n1) Name\n2) Region\n3) Length\n4) Width\n5) Exit\n>> ");
                     choice = in.nextInt();
                     in.nextLine(); // Consume newline
 
                     switch (choice) {
-                        case 1:
+                        case 1: // Edit Name
                             System.out.print("Enter new name:\n>> ");
                             String newName = in.nextLine();
                             i.setSpeciesName(newName);
                             break;
-                        case 2:
+                        case 2: // Edit Region
                             System.out.print("Enter new region:\n>> ");
                             String newRegion = in.nextLine();
                             i.setRegion(newRegion);
                             break;
-                        case 3:
+                        case 3: // Edit Length
                             System.out.print("Enter new length:\n>> ");
                             double newLength = in.nextDouble();
                             i.setLength(newLength);
                             break;
-                        case 4:
+                        case 4: // Edit Width
                             System.out.print("Enter new width:\n>> ");
                             double newWidth = in.nextDouble();
                             i.setWidth(newWidth);
@@ -260,10 +263,14 @@ public class plantSpeciesDB {
     public void wildcardSearch(String name) {
         System.out.printf("%-15s%-15s%-8s%-8s%n", "Species", "Region", "Length", "Width");
         for (plantSpecies i : plantSpeciesDB) {
+
+            // Starting wildcard search
             if (i.getSpeciesName().startsWith(name)) {
                 System.out.println(i);
             }
-            if (i.getSpeciesName().endsWith(name)) {
+
+            // Ending wildcard search
+            else if (i.getSpeciesName().endsWith(name)) {
                 System.out.println(i);
             }
         }
@@ -273,8 +280,6 @@ public class plantSpeciesDB {
 /**
  * A class to represent a plant species with its attributes.
  * 
- * @author xdd
- * @version 1.0
  */
 class plantSpecies {
     private String speciesName;
