@@ -2,7 +2,6 @@ package assessmentA;
 
 import java.util.*;
 
-
 /**
  * Main application class for the Plant Species Database
  */
@@ -19,7 +18,7 @@ public class App {
         int choice = 0;
         String[] valid = { "name", "region", "length", "width", "a", "d" };
         String search, name = null, region = null;
-        double length = 0.0, width = 0.0;
+        double length, width;
 
         do {
             try {
@@ -39,11 +38,18 @@ public class App {
                 switch (choice) {
                     // Add Plant Species
                     case 1:
+                        length = 0.0;
+                        width = 0.0;
+
                         in.nextLine(); // Consume leftover newline
                         System.out.print("\nSpecies Name\n>> ");
                         name = in.nextLine();
                         System.out.print("Region of Origin\n>> ");
                         region = in.nextLine();
+
+                        if (!region.substring(0,1).equals(region.substring(0,1).toUpperCase())) { // Checks if the region name is capitalized
+                            region = region.substring(0, 1).toUpperCase() + region.substring(1); // If so, capitalize the region name
+                        }
 
                         // Read and validate Length
                         while (length <= 1.3 || length >= 25000) {
@@ -57,11 +63,11 @@ public class App {
                         }
 
                         // Read and validate Width
-                        while (length <= 1.3 || length >= 25000) {
+                        while (width <= 1.3 || width >= 3000) {
                             System.out.print("Width (mm)\n>> ");
                             width = in.nextDouble();
-                            if (width <= 1) {
-                                System.out.println("Width must be greater than 1");
+                            if (width <= 1.3) {
+                                System.out.println("Width must be greater than 1.3");
                             } else if (width >= 3000) {
                                 System.out.println("Width must be less than 3000");
                             }
@@ -224,14 +230,14 @@ public class App {
                     default:
                         System.out.println("Invalid option");
                 }
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException e) { // Catches invalid input (i.e. Strings/Chars)
                 System.out.println("Invalid Input");
                 in.next();
                 clearScreen();
-            } catch (NoSuchElementException e) {
+            } catch (NoSuchElementException e) { // Catches errors when there is no input passed
                 System.out.println("Error reading input");
                 clearScreen();
-            } catch (Exception e) {
+            } catch (Exception e) { // In the unlikely event you happen to pass an error that is neither of the above
                 System.out.println("Now how in the hell did you get this?: " + e.getMessage());
                 clearScreen();
             }

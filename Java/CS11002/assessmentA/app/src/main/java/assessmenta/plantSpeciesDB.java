@@ -52,19 +52,13 @@ public class plantSpeciesDB {
      * @return Returns true if the species was removed, false if it does not exist
      */
     public boolean removeSpecies(String name) {
-
-        // Using iterator to safely remove while iterating
-        Iterator<plantSpecies> iterator = plantSpeciesDB.iterator();
-        while (iterator.hasNext()) {
-            plantSpecies species = iterator.next();
-
-            // Check for matching species name
-            if (species.getSpeciesName().equalsIgnoreCase(name)) {
-                iterator.remove();
-                return true; // Species found and removed
+        for (plantSpecies i : plantSpeciesDB) {
+            if(i.getSpeciesName().equalsIgnoreCase(name)) {
+                plantSpeciesDB.remove(i);
+                return true; // Species removed successfully
             }
         }
-        return false; // Species not found
+        return false; // Species does not exist
     }
 
     /**
@@ -162,59 +156,70 @@ public class plantSpeciesDB {
     public void displayByOrder(String order, String sortBy) {
         ArrayList<plantSpecies> sortedList = new ArrayList<>(plantSpeciesDB);
 
+        /*
+         * Collections.sort(sortedList, (species1, species2) -> species#.getAttribute().compareTo(species#.getAttribute()));
+         * 
+         * What this line does is return a sorted version of the database, based on the criteria that is it being sorted by and its order.
+         * The first param, sortedList, contains the sorted version of the database that will be passed and returned.
+         * The second param runs a lambda expression to compare the first species with the second species by the attribute being sorted by.
+         * The compareTo() method returns a negative integer, zero, or a positive integer based on whether the first species is less than, equal to, or greater than the second species.
+         * Based on the return value, the method will move or keep the species' position in the sorted array, following the specified order.
+         * (see link -> https://www.w3schools.com/java/java_advanced_sorting.asp)
+         */
+
         switch (sortBy.toLowerCase()) {
             case "name":
                 // Sort by Ascending order of Name
                 if (order.equalsIgnoreCase("a")) {
-                    Collections.sort(sortedList, (asc, desc) -> asc.getSpeciesName().compareTo(desc.getSpeciesName()));
+                    Collections.sort(sortedList, (species1, species2) -> species1.getSpeciesName().compareTo(species2.getSpeciesName()));
                 }
 
                 // Sort by Descending order of Name
                 else if (order.equalsIgnoreCase("d")) {
-                    Collections.sort(sortedList, (asc, desc) -> desc.getSpeciesName().compareTo(asc.getSpeciesName()));
+                    Collections.sort(sortedList, (species1, species2) -> species2.getSpeciesName().compareTo(species1.getSpeciesName()));
                 }
                 break;
 
             case "region":
                 // Sort by Ascending order of Region
                 if (order.equalsIgnoreCase("a")) {
-                    Collections.sort(sortedList, (asc, desc) -> asc.getRegion().compareTo(desc.getRegion()));
+                    Collections.sort(sortedList, (species1, species2) -> species1.getRegion().compareTo(species2.getRegion()));
                 }
 
                 // Sort by Descending order of Region
                 else if (order.equalsIgnoreCase("d")) {
-                    Collections.sort(sortedList, (asc, desc) -> desc.getRegion().compareTo(asc.getRegion()));
+                    Collections.sort(sortedList, (species1, species2) -> species2.getRegion().compareTo(species1.getRegion()));
                 }
                 break;
 
             case "length":
                 // Sort by Ascending order of Length
                 if (order.equalsIgnoreCase("a")) {
-                    Collections.sort(sortedList, (asc, desc) -> asc.getLength().compareTo(desc.getLength()));
+                    Collections.sort(sortedList, (species1, species2) -> species1.getLength().compareTo(species2.getLength()));
                 }
 
                 // Sort by Descending order of Length
                 else if (order.equalsIgnoreCase("d")) {
-                    Collections.sort(sortedList, (asc, desc) -> desc.getLength().compareTo(asc.getLength()));
+                    Collections.sort(sortedList, (species1, species2) -> species2.getLength().compareTo(species1.getLength()));
                 }
                 break;
 
             case "width":
                 // Sort by Ascending order of Width
                 if (order.equalsIgnoreCase("a")) {
-                    Collections.sort(sortedList, (asc, desc) -> asc.getWidth().compareTo(desc.getWidth()));
+                    Collections.sort(sortedList, (species1, species2) -> species1.getWidth().compareTo(species2.getWidth()));
                 }
 
                 // Sort by Descending order of Width
                 else if (order.equalsIgnoreCase("d")) {
-                    Collections.sort(sortedList, (asc, desc) -> desc.getWidth().compareTo(asc.getWidth()));
+                    Collections.sort(sortedList, (species1, species2) -> species2.getWidth().compareTo(species1.getWidth()));
                 }
                 break;
             default:
                 break;
         }
 
-        System.out.printf("%-15s%-15s%-8s%-8s%n", "Species", "Region", "Length", "Width");
+        System.out.printf("%-25s%-15s%-8s%-8s%n", "Species", "Region", "Length", "Width");
         for (plantSpecies i : sortedList) {
             System.out.println(i);
         }
