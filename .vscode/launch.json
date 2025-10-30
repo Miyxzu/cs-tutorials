@@ -6,6 +6,20 @@
       "name": "spotifyQueue",
       "request": "launch",
       "mainClass": "spotifyQueue",
+      "projectName": ""
+    },
+    {
+      "type": "java",
+      "name": "spotifyPlaylist",
+      "request": "launch",
+      "mainClass": "spotifyPlaylist",
+      "projectName": ""
+    },
+    {
+      "type": "java",
+      "name": "spotifyQueue",
+      "request": "launch",
+      "mainClass": "spotifyQueue",
       "projectName": "cs-tutorials_17981307"
     },
     {

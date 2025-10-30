@@ -36,8 +36,9 @@
   "C_Cpp.default.compilerPath": "cl.exe",
   "cmake.sourceDirectory": "C:/Users/exsu/cs-tutorials/C++",
   "java.project.sourcePaths": [
-    "Java/src",
+    "Java",
     "IB"
   ],
-  "java.compile.nullAnalysis.mode": "automatic"
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.updateBuildConfiguration": "automatic"
 }

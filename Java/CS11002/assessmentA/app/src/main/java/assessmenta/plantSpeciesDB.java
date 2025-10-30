@@ -141,7 +141,7 @@ public class plantSpeciesDB {
      * Displays the plant species database
      */
     public void displayDatabase() {
-        System.out.printf("%-15s%-15s%-8s%-8s%n", "Species", "Region", "Length", "Width");
+        System.out.printf("%-25s%-15s%-8s%-8s%n", "Species", "Region", "Length", "Width");
         for (plantSpecies i : plantSpeciesDB) {
             System.out.println(i);
         }
@@ -232,7 +232,7 @@ public class plantSpeciesDB {
      * @param region Region of origin to be searched
      */
     public void searchDatabase(String name, String region) {
-        System.out.printf("%-15s%-15s%-8s%-8s%n", "Species", "Region", "Length", "Width");
+        System.out.printf("%-25s%-15s%-8s%-8s%n", "Species", "Region", "Length", "Width");
 
         // If both parameters were passed
         if (name != null && region != null) {
@@ -266,7 +266,7 @@ public class plantSpeciesDB {
      * @param name Section of names to be searched
      */
     public void wildcardSearch(String name) {
-        System.out.printf("%-15s%-15s%-8s%-8s%n", "Species", "Region", "Length", "Width");
+        System.out.printf("%-25s%-15s%-8s%-8s%n", "Species", "Region", "Length", "Width");
         for (plantSpecies i : plantSpeciesDB) {
 
             // Starting wildcard search
@@ -356,6 +356,6 @@ class plantSpecies {
      */
     @Override
     public String toString() {
-        return String.format("%-15s%-15s%-8.2f%-8.2f", speciesName, region, length, width);
+        return String.format("%-25s%-15s%-8.2f%-8.2f", speciesName, region, length, width);
     }
 }

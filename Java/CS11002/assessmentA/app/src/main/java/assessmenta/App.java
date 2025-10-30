@@ -10,14 +10,13 @@ public class App {
 
     /**
      * Main method to run the Plant Species Database application
-     * @param args Command line arguments
      */
     public static void main(String[] args) {
         in = new Scanner(System.in);
         plantSpeciesDB db = new plantSpeciesDB();
         int choice = 0;
         String[] valid = { "name", "region", "length", "width", "a", "d" };
-        String search, name = null, region = null;
+        String search, name, region;
         double length, width;
 
         do {
@@ -38,17 +37,22 @@ public class App {
                 switch (choice) {
                     // Add Plant Species
                     case 1:
-                        length = 0.0;
-                        width = 0.0;
+                        length = 0.0; width = 0.0; name = null; region = null;
 
                         in.nextLine(); // Consume leftover newline
                         System.out.print("\nSpecies Name\n>> ");
                         name = in.nextLine();
+
+                        if (!name.substring(0, 1).equals(name.substring(0, 1).toUpperCase())) { // Checks if the Species name is capitalized
+                            name = name.substring(0, 1).toUpperCase() + name.substring(1); // If so, capitalize the Species name
+                        }
+
                         System.out.print("Region of Origin\n>> ");
                         region = in.nextLine();
 
-                        if (!region.substring(0,1).equals(region.substring(0,1).toUpperCase())) { // Checks if the region name is capitalized
-                            region = region.substring(0, 1).toUpperCase() + region.substring(1); // If so, capitalize the region name
+                        // same as above
+                        if (!region.substring(0, 1).equals(region.substring(0, 1).toUpperCase())) {
+                            region = region.substring(0, 1).toUpperCase() + region.substring(1);
                         }
 
                         // Read and validate Length
@@ -113,10 +117,10 @@ public class App {
                     // Display Species Database
                     case 4:
                         in.nextLine(); // Consume leftover newline
-                        String sort;
+                        String sort = null; search = null;
 
                         do {
-                            System.out.print("Sort by: Name, Region, Length, Width\n>> ");
+                            System.out.print("\nSort by: Name, Region, Length, Width\n>> ");
                             search = in.nextLine();
                         } while (!Arrays.asList(valid).contains(search.toLowerCase()));
 
@@ -132,59 +136,63 @@ public class App {
                     // Search Database
                     case 5:
                         in.nextLine(); // Consume leftover newline
-                        int select;
-                        name = null;
-                        region = null;
+                        int select = 0;
+                        name = null; region = null;
+
+                        db.displayDatabase();
 
                         do {
-                            System.out.print("Search by:\n1) Name\n2) Region\n3) Name/Region\n>>");
-                            select = in.nextInt();
+                            try {
+                                System.out.print("\nSearch by:\n1) Name\n2) Region\n3) Name/Region\n>> ");
+                                select = in.nextInt();
+                                in.nextLine(); // Consume leftover newline
+                            } catch (Exception e) {
+                                System.out.println("Invalid option, please use numbers only");
+                                in.nextLine(); // Consume invalid input
+                                select = 0;
+                                continue;
+                            }
 
                             switch (select) {
                                 case 1:
-                                    System.out.println("Name of Species >> ");
+                                    System.out.print("Name of Species \n>> ");
                                     name = in.nextLine();
-                                    select = 0;
 
                                     if (name == null || name.trim().isEmpty()) {
                                         System.out.println("Name cannot be empty");
-                                        break;
+                                        select = 0;
                                     }
-
                                     break;
                                 case 2:
-                                    System.out.println("Region of Origin >> ");
+                                    System.out.print("Region of Origin >> ");
                                     region = in.nextLine();
-                                    select = 0;
 
                                     if (region == null || region.trim().isEmpty()) {
                                         System.out.println("Region cannot be empty");
-                                        break;
+                                        select = 0;
                                     }
-
                                     break;
                                 case 3:
-                                    System.out.println("Name of Species >> ");
+                                    System.out.print("Name of Species >> ");
                                     name = in.nextLine();
-                                    System.out.println("Region of Origin >> ");
+                                    System.out.print("Region of Origin >> ");
                                     region = in.nextLine();
 
                                     if (name == null || name.trim().isEmpty()) {
                                         System.out.println("Name cannot be empty");
-                                        break;
+                                        select = 0;
                                     }
                                     if (region == null || region.trim().isEmpty()) {
                                         System.out.println("Region cannot be empty");
-                                        break;
+                                        select = 0;
                                     }
-
-                                    select = 0;
                                     break;
                                 default:
                                     System.out.println("Invalid option");
+                                    select = 0;
                                     break;
                             }
-                        } while (select != 0);
+                        } while (select == 0);
 
                         db.searchDatabase(name, region);
                         clearScreen();
@@ -193,7 +201,7 @@ public class App {
                     // Advanced/Wildcard Search
                     case 6:
                         in.nextLine(); // Consume leftover newline
-                        String check = "";
+                        String check = null; search = null;
 
                         System.out.print("\nEnter starting or ending name of Species (i.e. Heli* / *ing):\n>> ");
                         search = in.nextLine();
@@ -237,7 +245,8 @@ public class App {
             } catch (NoSuchElementException e) { // Catches errors when there is no input passed
                 System.out.println("Error reading input");
                 clearScreen();
-            } catch (Exception e) { // In the unlikely event you happen to pass an error that is neither of the above
+            } catch (Exception e) { // In the unlikely event you happen to pass an error that is neither of the
+                                    // above
                 System.out.println("Now how in the hell did you get this?: " + e.getMessage());
                 clearScreen();
             }
