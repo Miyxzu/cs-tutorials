@@ -81,11 +81,17 @@ public class plantSpeciesDB {
                         case 1: // Edit Name
                             System.out.print("Enter new name:\n>> ");
                             String newName = in.nextLine();
+                            if (newName.charAt(0) != Character.toUpperCase(newName.charAt(0))) {
+                                newName = Character.toUpperCase(newName.charAt(0)) + newName.substring(1);
+                            }
                             i.setSpeciesName(newName);
                             break;
                         case 2: // Edit Region
                             System.out.print("Enter new region:\n>> ");
                             String newRegion = in.nextLine();
+                            if (newRegion.charAt(0) != Character.toUpperCase(newRegion.charAt(0))) {
+                                newRegion = Character.toUpperCase(newRegion.charAt(0)) + newRegion.substring(1);
+                            }
                             i.setRegion(newRegion);
                             break;
                         case 3: // Edit Length
@@ -118,12 +124,14 @@ public class plantSpeciesDB {
     public Double getEvaporationRate(String species) {
         double area = 0;
 
+        // Calculate area of the species
         for (plantSpecies i : plantSpeciesDB) {
             if (i.getSpeciesName().equalsIgnoreCase(species)) {
                 area = (i.getLength() * i.getWidth());
             }
         }
 
+        // Determine evaporation rate based on area
         if (area < 60) {
             return 2.1;
         } else if (60 <= area && area <= 180) {
@@ -232,6 +240,7 @@ public class plantSpeciesDB {
      * @param region Region of origin to be searched
      */
     public void searchDatabase(String name, String region) {
+        Boolean check = false;
         System.out.printf("%-25s%-15s%-8s%-8s%n", "Species", "Region", "Length", "Width");
 
         // If both parameters were passed
@@ -239,6 +248,7 @@ public class plantSpeciesDB {
             for (plantSpecies i : plantSpeciesDB) {
                 if (i.getSpeciesName().equalsIgnoreCase(name) && i.getRegion().equalsIgnoreCase(region)) {
                     System.out.println(i);
+                    check = true;
                 }
             }
         }
@@ -247,6 +257,7 @@ public class plantSpeciesDB {
             for (plantSpecies i : plantSpeciesDB) {
                 if (i.getSpeciesName().equalsIgnoreCase(name)) {
                     System.out.println(i);
+                    check = true;
                 }
             }
         }
@@ -255,8 +266,13 @@ public class plantSpeciesDB {
             for (plantSpecies i : plantSpeciesDB) {
                 if (i.getRegion().equalsIgnoreCase(region)) {
                     System.out.println(i);
+                    check = true;
                 }
             }
+        }
+
+        if (!check) {
+            System.out.println("No matching entries found.");
         }
     }
 
@@ -266,16 +282,17 @@ public class plantSpeciesDB {
      * @param name Section of names to be searched
      */
     public void wildcardSearch(String name) {
+        System.out.println();
         System.out.printf("%-25s%-15s%-8s%-8s%n", "Species", "Region", "Length", "Width");
         for (plantSpecies i : plantSpeciesDB) {
 
             // Starting wildcard search
-            if (i.getSpeciesName().startsWith(name)) {
+            if (i.getSpeciesName().toLowerCase().startsWith(name)) {
                 System.out.println(i);
             }
 
             // Ending wildcard search
-            else if (i.getSpeciesName().endsWith(name)) {
+            else if (i.getSpeciesName().toLowerCase().endsWith(name)) {
                 System.out.println(i);
             }
         }

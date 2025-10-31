@@ -33,26 +33,26 @@ public class App {
                         ">> ");
 
                 choice = in.nextInt();
+                in.nextLine(); // Consume leftover newline
 
                 switch (choice) {
                     // Add Plant Species
                     case 1:
                         length = 0.0; width = 0.0; name = null; region = null;
 
-                        in.nextLine(); // Consume leftover newline
                         System.out.print("\nSpecies Name\n>> ");
                         name = in.nextLine();
 
-                        if (!name.substring(0, 1).equals(name.substring(0, 1).toUpperCase())) { // Checks if the Species name is capitalized
-                            name = name.substring(0, 1).toUpperCase() + name.substring(1); // If so, capitalize the Species name
+                        if (name.charAt(0) != Character.toUpperCase(name.charAt(0))) { // Checks if the first character is capitalized
+                            name = Character.toUpperCase(name.charAt(0)) + name.substring(1); // If so, capitalize the character
                         }
 
                         System.out.print("Region of Origin\n>> ");
                         region = in.nextLine();
 
                         // same as above
-                        if (!region.substring(0, 1).equals(region.substring(0, 1).toUpperCase())) {
-                            region = region.substring(0, 1).toUpperCase() + region.substring(1);
+                        if (region.charAt(0) != Character.toUpperCase(region.charAt(0))) {
+                            region = Character.toUpperCase(region.charAt(0)) + region.substring(1);
                         }
 
                         // Read and validate Length
@@ -88,7 +88,6 @@ public class App {
 
                     // Edit Species Entry
                     case 2:
-                        in.nextLine(); // Consume leftover newline
                         db.displayDatabase();
 
                         System.out.print("\nEnter the name of the species you want to edit:\n>> ");
@@ -99,7 +98,6 @@ public class App {
 
                     // Remove Plant Species
                     case 3:
-                        in.nextLine(); // Consume leftover newline
                         db.displayDatabase();
 
                         System.out.print("\nEnter the name of the species you want to remove:\n>> ");
@@ -116,7 +114,6 @@ public class App {
 
                     // Display Species Database
                     case 4:
-                        in.nextLine(); // Consume leftover newline
                         String sort = null; search = null;
 
                         do {
@@ -135,11 +132,8 @@ public class App {
 
                     // Search Database
                     case 5:
-                        in.nextLine(); // Consume leftover newline
                         int select = 0;
                         name = null; region = null;
-
-                        db.displayDatabase();
 
                         do {
                             try {
@@ -164,7 +158,7 @@ public class App {
                                     }
                                     break;
                                 case 2:
-                                    System.out.print("Region of Origin >> ");
+                                    System.out.print("Region of Origin \n>> ");
                                     region = in.nextLine();
 
                                     if (region == null || region.trim().isEmpty()) {
@@ -173,9 +167,9 @@ public class App {
                                     }
                                     break;
                                 case 3:
-                                    System.out.print("Name of Species >> ");
+                                    System.out.print("Name of Species \n>> ");
                                     name = in.nextLine();
-                                    System.out.print("Region of Origin >> ");
+                                    System.out.print("Region of Origin \n>> ");
                                     region = in.nextLine();
 
                                     if (name == null || name.trim().isEmpty()) {
@@ -192,6 +186,8 @@ public class App {
                                     select = 0;
                                     break;
                             }
+
+
                         } while (select == 0);
 
                         db.searchDatabase(name, region);
@@ -200,11 +196,15 @@ public class App {
 
                     // Advanced/Wildcard Search
                     case 6:
-                        in.nextLine(); // Consume leftover newline
                         String check = null; search = null;
 
                         System.out.print("\nEnter starting or ending name of Species (i.e. Heli* / *ing):\n>> ");
                         search = in.nextLine();
+                        while (!search.contains("*")) {
+                            System.out.print("Invalid input, please include a wildcard '*'\n>> ");
+                            search = in.nextLine();
+                        }
+
                         for (int i = 0; i < search.length(); i++) {
                             if (search.substring(i).contains("*")) {
                                 if (search.indexOf("*") == 0) {
@@ -216,14 +216,13 @@ public class App {
                             }
                         }
 
-                        db.wildcardSearch(check);
+                        db.wildcardSearch(check.toLowerCase());
                         clearScreen();
                         break;
 
                     // Calculate Evaporation Rate
                     case 7:
                         db.displayDatabase();
-                        in.nextLine(); // Consume leftover newline
 
                         System.out.print("\nEnter Species Name:\n>> ");
                         name = in.nextLine();
