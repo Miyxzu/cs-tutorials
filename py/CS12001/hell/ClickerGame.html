@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .fui {
+            display:inline;
+            float:right
+            }        
+        .lui {
+            display:inline;
+            float:left
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="title">Press down on the squash</h1>
+        
+        <div class="score-display">
+            <h2>Pressure: </h2>
+            <div id="scoreTag">--</div>
+            <span style="margin-left: 5px;">%</span>
+        </div>
+        
+        <button id="tester_button" type="button" onclick="call_game_logic()">Read Pressure</button>
+        <br>
+        <button onclick="updatePressure()">Manual Refresh</button>
+        
+        <!-- Remove the broken image for now -->
+        <!-- <img src="/Larry.png"></img> -->
+    </div>
+</body>
+<script src="ClickerGame.js"></script>
+</html>
