@@ -1,34 +1,45 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Squash Clicker</title>
     <style>
-        .fui {
-            display:inline;
-            float:right
-            }        
-        .lui {
-            display:inline;
-            float:left
-            }
+      .score-display {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        display: block;
+      }
+      .pressure-display {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        display: block;
+      }
+      .larry {
+        width: 225px;
+        height: auto;
+        display: block;
+      }
+      .scTag {
+        display: center;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
+      <div class="pressure-display">
         <h1 id="title">Press down on the squash</h1>
-        
-        <div class="score-display">
-            <h2>Pressure: </h2>
-            <div id="scoreTag">--</div>
-            <span style="margin-left: 5px;">%</span>
-        </div>
-        
-        <button id="tester_button" type="button" onclick="call_game_logic()">Read Pressure</button>
-        <br>
-        <button onclick="updatePressure()">Manual Refresh</button>
-        
-        <!-- Remove the broken image for now -->
-        <!-- <img src="/Larry.png"></img> -->
+        <h2>Pressure: <span id="percent">0%</span></h2>
+      </div>
+
+      <div class="score-display">
+        <h1 class="scTag" id="scoreTag">Current Score: 0</h1>
+        <br />
+        <img class="larry" src="larry.jpg" />
+      </div>
     </div>
-</body>
-<script src="ClickerGame.js"></script>
+  </body>
+  <script src="clickerGame.js"></script>
 </html>

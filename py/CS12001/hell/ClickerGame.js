@@ -8,8 +8,20 @@ async function updatePressure() {
     const data = await response.json();
 
     pressure = data.pressure;
-    testPress();
-    document.getElementById("scoreTag").innerHTML = data.pressure;
+    // testPress();
+
+    // Use the actual pressure value instead of just incrementing
+    if (lastPressure !== null && (pressure - lastPressure > 50)) {
+      console.log("Pressure increased from", lastPressure, "to", pressure);
+      score += 1;
+      document.getElementById("title").innerHTML = "Larry has been pressed";
+      document.getElementById("scoreTag").innerHTML = ("Current Score: " + score);
+      // Handle pressure increase here
+    }
+    lastPressure = pressure;
+    console.log("Pressure updated:", pressure);
+
+    document.getElementById("percent").innerHTML = data.pressure + '%';
   } catch (error) {
     // Fix: Remove 'this.log' and use console.log instead
     console.log("Error fetching pressure:", error.message);
@@ -17,28 +29,10 @@ async function updatePressure() {
   }
 }
 
-function testPress() { 
-    // Use the actual pressure value instead of just incrementing
-    if (lastPressure !== null && (pressure - lastPressure) > 20) {
-      console.log("Pressure increased from", lastPressure, "to", pressure);
-      score += 1;
-      document.getElementById("title").innerHTML = "Pressure increased! Score: " + score;
-      // Handle pressure increase here
-    }
-    lastPressure = pressure;
-    console.log("Pressure updated:", pressure);
-}
-
-function call_game_logic() {
-  document.getElementById("title").innerHTML = "Squash has been pressed";
-  // Also update pressure when button is clicked
-  updatePressure();
-}
-
-// Auto-update pressure every 2 seconds like the dashboard
+// Update pressure every second
 setInterval(updatePressure, 1000);
 
-// Initial pressure update when page loads
+// Initial pressure update on page load
 window.onload = function () {
   updatePressure();
 };

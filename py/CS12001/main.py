@@ -3,24 +3,21 @@ import machine
 import network
 import ujson
 import os
-from dotenv import load_dotenv
 from umqtt.simple import MQTTClient
 
 ###############################################################################
 ### START CODE MODIFICATION ###################################################
 ###############################################################################
 
-load_dotenv()
-
 # Wifi Name / SSID
-SSID = b'hakone'
+SSID = b'ssid'
 # Wifi Password
-PASS = b'passtest123'
+PASS = b'password'
 
 # AWS ThingName is used for the Client ID (Best Practice). Example: RaspberryPiPicoW
-CLIENT_ID = b'RaspberryPiPicoW'
+CLIENT_ID = b'squash_game'
 # AWS Endpoint (Refer to "Creating a Thing in AWS IoT Core" step 13)
-AWS_ENDPOINT = b'https://a3ksxjwqr1v19j-ats.iot.us-east-1.amazonaws.com/'
+AWS_ENDPOINT = b'a3ksxjwqr1v19j-ats.iot.us-east-1.amazonaws.com'
 
 ###############################################################################
 ### END CODE MODIFICATION #####################################################
@@ -32,11 +29,13 @@ PUB_TOPIC = b'/' + CLIENT_ID + '/temperature'
 SUB_TOPIC = b'/' + CLIENT_ID + '/light'
 
 # Reading Thing Private Key and Certificate into variables for later use
-with open('/certs/key.der', 'rb') as f:
+with open('/certs/squash_game.key.der', 'rb') as f:
     DEV_KEY = f.read()
+    print("Device Private Key loaded, %d bytes" % len(DEV_KEY))
 # Thing Certificate
-with open('/certs/cert.der', 'rb') as f:
+with open('/certs/squash_game.cert.der', 'rb') as f:
     DEV_CRT = f.read()
+    print("Device Certificate loaded, %d bytes" % len(DEV_CRT))
 
 # Define light (Onboard Green LED) and set its default state to off
 light = machine.Pin("LED", machine.Pin.OUT)
