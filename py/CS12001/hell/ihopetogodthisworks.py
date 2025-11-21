@@ -4,8 +4,8 @@ import time
 import machine # type: ignore
 import ujson # type: ignore
 
-SSID = 'Vodafone-A340'
-PASS = 'Ac16051992ac!'
+SSID = 'ssid'
+PASS = 'password123!'
 
 # Connect to the internet
 # (cause idk how else you would run a web server without it)
