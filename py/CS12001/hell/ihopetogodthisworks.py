@@ -4,8 +4,8 @@ import time
 import machine # type: ignore
 import ujson # type: ignore
 
-SSID = 'ssid'
-PASS = 'password123!'
+SSID = 'a'
+PASS = 'a'
 
 # Connect to the internet
 # (cause idk how else you would run a web server without it)
