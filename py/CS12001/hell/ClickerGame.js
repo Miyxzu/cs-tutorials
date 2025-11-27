@@ -8,6 +8,7 @@ let up1 = false,
   up2 = false,
   up3 = false;
 
+// Update score display
 function updateScore(amount) {
   score += amount;
   document.getElementById("scoreTag").innerHTML = "Current Score: " + score;
@@ -74,11 +75,13 @@ async function updateClickerGame() {
   currentTime++;
 
   try {
+    // Fetch pressure data from the API
     const response = await fetch("/api/pressure");
     const data = await response.json();
 
     pressure = data.pressure;
 
+    // Pressure detection logic
     if (lastPressure !== null && pressure - lastPressure > 50) {
       updateScore(1);
       document.getElementById("title").innerHTML = "Larry has been pressed";
@@ -92,6 +95,7 @@ async function updateClickerGame() {
       "Error: See console for details.";
   }
 
+  // Upgrade effects
   if (up1) {
     updateScore(1);
   }

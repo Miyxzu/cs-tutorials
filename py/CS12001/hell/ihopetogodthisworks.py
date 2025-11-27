@@ -45,6 +45,7 @@ def handle_request(request):
     try:
         # Parse the request line
         lines = request.split('\n')
+        # Method = HTTP method, Path = requested resource, _ = throwaway variable
         method, path, _ = lines[0].split()
         
         # Pressure API endpoint
@@ -85,6 +86,7 @@ def handle_request(request):
 
 # Main server loop
 def start_server(ip):
+    # Socket stuff
     addr = socket.getaddrinfo('0.0.0.0', 8080)[0][-1]
     s = socket.socket()
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -98,10 +100,12 @@ def start_server(ip):
     while True:
         cl = None
         try:
+            # Wait for a client connection
             cl, addr = s.accept()
             request = cl.recv(1024).decode()
             print(f'Request: {request.split()[1] if request else "Invalid"}')
             
+            # Handle the request and send response
             response = handle_request(request)
             if isinstance(response, tuple) and response[0] == 'binary':
                 cl.send(response[1])
