@@ -27,7 +27,10 @@ public class Game {
         // Logic to read the file and load game state would go here
         return true;
     }
-
+    
+    /**
+     * See https://stackoverflow.com/a/4044793
+     */
     public void turn() {
         gameTimer = new Timer();
         gameTimer.schedule(new TimerTask() {
