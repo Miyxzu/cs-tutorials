@@ -3,12 +3,67 @@
  */
 package assessmentfinal;
 
+import java.util.*;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+    static Scanner in;
+    public static void main(String[] args) {
+        in = new Scanner(System.in);
+        int choice = 0;
+
+        do {
+            try {
+                System.out.print("Welcome to the Plant Species Database\n" +
+                        "1) Add Plant Species\n" +
+                        "2) Edit Species Entry\n" +
+                        "3) Remove Plant Species\n" +
+                        "4) Display Species Database\n" +
+                        "5) Search Database\n" +
+                        "6) Advanced/Wildcard Search\n" +
+                        "7) Calculate Evaporation Rate\n" +
+                        "8) Exit\n" +
+                        ">> ");
+
+                choice = in.nextInt();
+                in.nextLine(); // Consume newline
+
+                switch (choice) {
+                    case 3:
+                        break;
+                    case 4:
+                        choice = -1;
+                        break;
+                
+                    default:
+                        System.out.println("Invalid option");
+                }
+            } catch (InputMismatchException e) { // Catches invalid input (i.e. Strings/Chars)
+                System.out.println("Invalid Input");
+                in.next();
+                clearScreen();
+            } catch (NoSuchElementException e) { // Catches errors when there is no input passed
+                System.out.println("Error reading input");
+                clearScreen();
+            } catch (Exception e) { // In the unlikely event you happen to pass an error that is neither of the above
+                System.out.println("Now how in the hell did you get this?: " + e.getMessage());
+                clearScreen();
+            }
+        } while (choice != -1);
+        System.out.println("Exiting the application.");
+        in.close();
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    /**
+     * Clears the console
+     */
+    static void clearScreen() {
+        if (in.hasNextLine()) {
+            @SuppressWarnings("unused")
+            String leftover = in.nextLine();
+        }
+        System.out.println("Press Enter to continue...");
+        in.nextLine();
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }
