@@ -103,6 +103,14 @@ public class Player extends Board {
         this.name = name;
     }
 
+    public int getCreaturesLeft() {
+        return board.creaturesLeft;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
     public boolean isCurrentTurn() {
         return currentTurn;
     }
