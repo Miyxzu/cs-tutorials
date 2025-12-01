@@ -8,20 +8,25 @@ public class Player extends Board {
     private String name;
     private boolean isAlive;
     private boolean currentTurn;
+    private boolean won;
     private Board board;
 
     public static void main(String[] args) {
-        Player player = new Player("Player1");
+        Player player = new Player("Player 1");
         Scanner in = new Scanner(System.in);
 
         player.initializeBoard();
         player.board.getInternalBoard();
+        player.setCurrentTurn(true);
 
-        System.out.print("Enter your guess (x y): ");
-        int x = in.nextInt();
-        int y = in.nextInt();
+        System.out.print("Enter your guess (X, Y): ");
+        String coords = in.nextLine();
+        String[] parts = coords.split(", ");
+        int x = Integer.parseInt(parts[0]);
+        int y = Integer.parseInt(parts[1]);
         player.Guess(x, y);
-        player.displayBoard();
+
+        in.close();
     }
 
     public Player(String name) {
@@ -31,6 +36,7 @@ public class Player extends Board {
         this.score = 0;
         this.isAlive = true;
         this.currentTurn = false;
+        this.won = false;
     }
 
     public void initializeBoard() {
@@ -70,7 +76,7 @@ public class Player extends Board {
             score += 5;
         } else if (board.InternalBoard[x][y] == "b") {
             System.out.println("Oh no! You hit a bomb!");
-            health -= 10;
+            health -= 25;
         }else if (board.InternalBoard[x][y] == "j") {
             System.out.println("Oh no! You hit a jellyfish!");
             score -= 2;
@@ -79,5 +85,50 @@ public class Player extends Board {
             System.out.println("Miss!");
             board.InternalBoard[x][y] = "X";
         }
+
+        if (health == 0) {
+            isAlive = false;
+            return;
+        }
+        
+        displayBoard();
+        currentTurn = false;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isCurrentTurn() {
+        return currentTurn;
+    }
+
+    public void setCurrentTurn(boolean currentTurn) {
+        this.currentTurn = currentTurn;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean isAlive) {
+        this.isAlive = isAlive;
+    }
+
+    public boolean isWon() {
+        return won;
+    }
+
+    public void setWon(boolean won) {
+        this.won = won;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%-25s%-15s%-8.2f%-8.2f", name, health, score);
     }
 }

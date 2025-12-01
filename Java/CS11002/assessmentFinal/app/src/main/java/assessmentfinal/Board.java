@@ -10,7 +10,7 @@ public class Board {
     private String lastFishOrientation = null;
     private String lastSharkOrientation = null;
     private final List<String> creatures = new ArrayList<>(
-            Arrays.asList("c", "c", "c", "c", "c", "c", "c", "c", "b", "b", "b", "j", "j", "j", "f", "f", "f", "f", "s", "s", "s"));
+            Arrays.asList("c", "c", "c", "c", "c", "c", "c", "c", "b", "b", "b", "b", "j", "j", "j", "f", "f", "f", "f", "s", "s", "s"));
 
     public Board() {
         InternalBoard = new String[16][16];
@@ -76,6 +76,10 @@ public class Board {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public int getCreaturesLeft() {
+        return creaturesLeft;
     }
 
     // Internal methods

@@ -18,10 +18,6 @@ public class App {
                         "2) Edit Species Entry\n" +
                         "3) Remove Plant Species\n" +
                         "4) Display Species Database\n" +
-                        "5) Search Database\n" +
-                        "6) Advanced/Wildcard Search\n" +
-                        "7) Calculate Evaporation Rate\n" +
-                        "8) Exit\n" +
                         ">> ");
 
                 choice = in.nextInt();
