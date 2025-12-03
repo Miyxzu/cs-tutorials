@@ -6,7 +6,7 @@ public class Board {
     private Random rand;
     protected String[][] InternalBoard;
     protected boolean[][] PlayerBoard;
-    private int creaturesLeft;
+    protected int creaturesLeft;
     private String lastFishOrientation = null;
     private String lastSharkOrientation = null;
     private final List<String> creatures = new ArrayList<>(
@@ -21,10 +21,8 @@ public class Board {
     /**
      * 
      */
-    protected void addCreaturesToBoard() {
+    protected void initializeBoard() {
         rand = new Random();
-
-        System.out.println("Placing creatures on the board...");
 
         for (int i = 0; i < creaturesLeft; i++) {
             int x = rand.nextInt(12) + 1;

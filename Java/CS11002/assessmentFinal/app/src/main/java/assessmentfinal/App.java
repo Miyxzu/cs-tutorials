@@ -9,6 +9,8 @@ public class App {
     static Scanner in;
     public static void main(String[] args) {
         in = new Scanner(System.in);
+        Game game = new Game();
+        String playerNames[] = new String[2];
         int choice = 0;
 
         do {
@@ -24,12 +26,39 @@ public class App {
                 in.nextLine(); // Consume newline
 
                 switch (choice) {
+                    case 1:
+                        System.out.println("Starting a new game...");
+                        for (int i = 0; i < playerNames.length; i++) {
+                            System.out.println("Enter name for Player " + (i + 1) + "\n" + ">> ");
+                            playerNames[i] = in.nextLine();
+                        }
+
+                        if (!game.startNewGame(playerNames)) {
+                            System.out.println("Failed to start a new game.");
+                            break;
+                        }
+
+                        game.turn();
+                        break;
+                    case 2:
+                        if (!game.getSavedGamesList()) {
+                            System.out.println("No saved games to load.");
+                        }
+                        System.out.println();
+
+                        System.out.print("Enter the saved game to load\n" + ">> ");
+                        String filename = in.next();
+                        if (!game.loadPreviousGame(filename)) {
+                            System.out.println("Failed to load the game.");
+                            break;
+                        }
+                        break;
                     case 3:
+                        System.out.println("How to play the game:");
                         break;
                     case 4:
                         choice = -1;
                         break;
-                
                     default:
                         System.out.println("Invalid option");
                 }

@@ -1,7 +1,5 @@
 package assessmentfinal;
 
-import java.util.*;
-
 public class Player extends Board {
     private int health;
     private int score;
@@ -9,25 +7,7 @@ public class Player extends Board {
     private boolean isAlive;
     private boolean currentTurn;
     private boolean won;
-    private Board board;
-
-    public static void main(String[] args) {
-        Player player = new Player("Player 1");
-        Scanner in = new Scanner(System.in);
-
-        player.initializeBoard();
-        player.board.getInternalBoard();
-        player.setCurrentTurn(true);
-
-        System.out.print("Enter your guess (X, Y): ");
-        String coords = in.nextLine();
-        String[] parts = coords.split(", ");
-        int x = Integer.parseInt(parts[0]);
-        int y = Integer.parseInt(parts[1]);
-        player.Guess(x, y);
-
-        in.close();
-    }
+    protected Board board;
 
     public Player(String name) {
         board = new Board();
@@ -37,11 +17,6 @@ public class Player extends Board {
         this.isAlive = true;
         this.currentTurn = false;
         this.won = false;
-    }
-
-    public void initializeBoard() {
-        board.addCreaturesToBoard();
-        displayBoard();
     }
 
     public void displayBoard() {
@@ -71,15 +46,21 @@ public class Player extends Board {
         board.PlayerBoard[x][y] = true; // Mark as revealed
 
         if (board.InternalBoard[x][y] != null) {
-            // Hit! Show what creature it is
-            System.out.println("Hit! You found: " + board.InternalBoard[x][y]);
-            score += 5;
-        } else if (board.InternalBoard[x][y] == "b") {
-            System.out.println("Oh no! You hit a bomb!");
-            health -= 25;
-        }else if (board.InternalBoard[x][y] == "j") {
-            System.out.println("Oh no! You hit a jellyfish!");
-            score -= 2;
+            String cell = board.InternalBoard[x][y];
+
+            if (!cell.equals("b") && !cell.equals("j")) {
+                // Hit! Show what creature it is
+                System.out.println("Hit! You found: " + board.InternalBoard[x][y]);
+                score += 5;
+            } else if (cell.equals("b")) {
+                System.out.println("Oh no! You hit a bomb!");
+                health -= 25;
+            } else if (cell.equals("j")) {
+                System.out.println("Oh no! You hit a jellyfish!");
+                score -= 2;
+            }
+
+            creaturesLeft--;
         } else {
             // Miss - mark with X
             System.out.println("Miss!");
@@ -90,9 +71,31 @@ public class Player extends Board {
             isAlive = false;
             return;
         }
-        
+
         displayBoard();
         currentTurn = false;
+    }
+
+    public boolean overrideCurrentBoards(String[][] internalBoard, boolean[][] playerBoard, int creaturesLeft) {
+        boolean flag = true;
+
+        if (internalBoard != null && internalBoard.length > 0) {
+            this.board.InternalBoard = internalBoard;
+            if (playerBoard != null && playerBoard.length > 0) {
+                this.board.PlayerBoard = playerBoard;
+            } else {
+                this.board.PlayerBoard = new boolean[16][16];
+            }
+            this.board.creaturesLeft = creaturesLeft;
+        } else {
+            flag = false;
+        }
+
+        return flag;
+    }
+
+    public int getCreaturesLeft() {
+        return board.creaturesLeft;
     }
 
     public String getName() {
@@ -103,12 +106,20 @@ public class Player extends Board {
         this.name = name;
     }
 
-    public int getCreaturesLeft() {
-        return board.creaturesLeft;
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public int getScore() {
         return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public boolean isCurrentTurn() {
@@ -137,6 +148,6 @@ public class Player extends Board {
 
     @Override
     public String toString() {
-        return String.format("%-25s%-15s%-8.2f%-8.2f", name, health, score);
+        return String.format("%-25s%-10s%-8s%-8s", name, currentTurn, health, score);
     }
 }
