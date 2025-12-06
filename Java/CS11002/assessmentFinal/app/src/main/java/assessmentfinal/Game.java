@@ -4,22 +4,6 @@ import java.util.*;
 import java.io.*;
 
 public class Game {
-
-    public static void main(String[] args) {
-        Game game = new Game();
-        in = new Scanner(System.in);
-        String[] playerNames = { "Player1", "Player2" };
-        if (!game.startNewGame(playerNames)) {
-            System.out.println("Error starting new game.");
-            in.close();
-            return;
-        }
-
-        game.turn();
-
-        in.close();
-    }
-
     private static Scanner in;
     private Player[] players;
     private int currentPlayerIndex;
@@ -28,12 +12,21 @@ public class Game {
     private static final int MAX_TURNS = 30;
     private static final int MAX_TURN_TIME = 120; // in seconds
 
+    /**
+     * Constructor
+     * Sets up initial game state
+     */
     public Game() {
         players = new Player[2];
         currentPlayerIndex = 0;
         currentTurn = 1;
     }
 
+    /**
+     * Starts a new game with provided player names
+     * @param playerNames Array of player names
+     * @return boolean Returns whether game started successfully
+     */
     public boolean startNewGame(String[] playerNames) {
         for (int i = 0; i < playerNames.length; i++) {
             players[i] = new Player(playerNames[i]);
@@ -45,6 +38,11 @@ public class Game {
         return true;
     }
 
+    /**
+     * Saves the current game state to a file
+     * @param filename Name of the file to save the game state
+     * @throws IOException If an I/O error occurs
+     */
     public void saveCurrentGame(String filename) throws IOException {
         File dir = new File("./SavedGames/");
 
@@ -92,8 +90,14 @@ public class Game {
         }
     }
 
+    /**
+     * Loads a previously saved game state from a file
+     * @param filename Name of the file to load the game state from
+     * @return boolean Returns whether the game was loaded successfully
+     * @throws IOException If an I/O error occurs
+     */
     public boolean loadPreviousGame(String filename) throws IOException {
-        File file = new File(filename);
+        File file = new File("./SavedGames/", filename + ".txt");
         if (!file.exists()) {
             System.out.println("Save file not found.");
             return false;
@@ -158,6 +162,10 @@ public class Game {
         }
     }
 
+    /**
+     * Lists all saved games in the SavedGames directory
+     * @return boolean Returns whether there are saved games to list
+     */
     public boolean getSavedGamesList() {
         File dir = new File("./SavedGames/");
 
@@ -177,14 +185,20 @@ public class Game {
         return true;
     }
 
+    /**
+     * Manages a player's turn
+     * Check each switch case for details
+     */
     public void turn() {
         int choice = 0;
         boolean playing = true;
         String filename = "";
+        String overwrite = "";
         File checkFile;
 
         turnTimer();
 
+        // Display current player's board and status
         players[currentPlayerIndex].board.getInternalBoard();
         players[currentPlayerIndex].displayBoard();
         getPlayerList();
@@ -196,10 +210,11 @@ public class Game {
 
         choice = in.nextInt();
         in.nextLine(); // Consume newline
+        System.out.println();
 
         while (choice != -1) {
             switch (choice) {
-            case 1:
+            case 1: // Guess
                 System.out.print("Enter your guess (X, Y): ");
                 String coords = in.nextLine();
                 String[] parts;
@@ -225,24 +240,31 @@ public class Game {
                         break;
                     }
                 }
-                int x = Integer.parseInt(parts[0]);
-                int y = Integer.parseInt(parts[1]);
+
+                // Accounting for the fact that 2D array is [Y][X]
+                int x = Integer.parseInt(parts[1]);
+                int y = Integer.parseInt(parts[0]);
                 players[currentPlayerIndex].Guess(x, y);
                 choice = -1;
                 break;
-            case 2:
+            case 2: // Save Game
                 gameTimer.cancel();
-                System.out.println("Enter name to save the game.\n" + ">> ");
+                System.out.print("Enter name to save the game.\n" + ">> ");
                 filename = in.nextLine();
 
                 checkFile = new File("./SavedGames/", filename + ".txt");
                 if (checkFile.exists()) {
                     System.out.println("A save with that name already exists.");
-                    System.out.println("Would you like to overwrite it? (y/n)\n" + ">> ");
-                    if (!in.nextLine().equalsIgnoreCase("n")) {
-                        System.out.println("Enter name to save the game\n" + ">> ");
+                    System.out.print("Would you like to overwrite it? (y/n)\n" + ">> ");
+                    overwrite = in.nextLine();
+
+                    System.out.println();
+                    if (overwrite.equalsIgnoreCase("n")) {
+                        System.out.print("Enter new name to save the game\n" + ">> ");
                         filename = in.nextLine();
-                        break;
+                        System.out.println();
+                    } else {
+                        System.out.println("Overwriting existing save...");
                     }
                 }
 
@@ -255,26 +277,26 @@ public class Game {
 
                 turnTimer();
                 break;
-            case 4:
-                System.out.println("What item would you like to use?\n" + ">> ");
-            case 3:
+            case 3: // Quit Game w/o Saving
                 gameTimer.cancel();
-                System.out.println("Would you like to save before quitting? (y/n)\n" + ">> ");
+                System.out.print("Would you like to save before quitting? (y/n)\n" + ">> ");
                 String confirm = in.nextLine();
                 if (confirm.equalsIgnoreCase("y")) {
-                    System.out.print("Enter filename to save the game: ");
-                    filename = in.nextLine();
-
-                    System.out.println("Enter name to save the game.\n" + ">> ");
+                    System.out.print("Enter name to save the game.\n" + ">> ");
                     filename = in.nextLine();
 
                     checkFile = new File("./SavedGames/", filename + ".txt");
                     if (checkFile.exists()) {
                         System.out.println("A save with that name already exists.");
-                        System.out.println("Would you like to overwrite it? (y/n)\n" + ">> ");
-                        if (!in.nextLine().equalsIgnoreCase("n")) {
-                            System.out.println("Enter name to save the game\n" + ">> ");
-                            filename = in.nextLine();
+                        System.out.print("Would you like to overwrite it? (y/n)\n" + ">> ");
+                        overwrite = in.nextLine();
+
+                        System.out.println();
+                        if (overwrite.equalsIgnoreCase("n")) {
+                            System.out.println("Quitting without saving...");
+                            playing = false;
+                            choice = -1;
+                            clearScreen();
                             break;
                         }
                     }
@@ -284,15 +306,17 @@ public class Game {
                         System.out.println("Game saved successfully.");
                     } catch (Exception e) {
                         System.out.println("Error saving the game: " + e.getMessage());
-                        System.out.println("Quitting without saving.");
                     }
-                } else {
-                    System.out.println("Continuing the game.");
-                    turnTimer();
-                    break;
                 }
+
+                System.out.println();
+                System.out.println("Quitting...");
                 playing = false;
                 choice = -1;
+                clearScreen();
+                break;
+            case 4: // Idk if i decide to work on this later or just remove it
+                System.out.print("What item would you like to use?\n" + ">> ");
                 break;
             default:
                 System.out.println("Invalid option");
@@ -305,18 +329,22 @@ public class Game {
 
     /**
      * See https://stackoverflow.com/a/4044793
+     * Creates a timer for the player's turn
      */
     private void turnTimer() {
         gameTimer = new Timer();
         gameTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("Time's up! Your turn is over.");
+                System.out.println("\nTime's up! Your turn is over.");
                 checkForGameFinished();
             }
         }, (long) (MAX_TURN_TIME * 1000));
     }
 
+    /**
+     * Switches turns between players
+     */
     private void switchTurns() {
         for (int i = 0; i < players.length; i++) {
             if (players[i].isCurrentTurn() == true) {
@@ -331,6 +359,10 @@ public class Game {
         }
     }
 
+    /**
+     * Checks if the game has finished and declares a winner if so
+     * if not, switches turns and continues the game
+     */
     private void checkForGameFinished() {
         int highestScore = 0;
         boolean winnerFlag = false;
@@ -380,14 +412,20 @@ public class Game {
         }
     }
 
+    /**
+     * Displays the list of players with their current status
+     */
     public void getPlayerList() {
-        System.out.printf("%-25s%-10s%-8s%-8s\n", "Player", "Current Turn", "Health", "Score");
+        System.out.printf("%-20s%-15s%-8s%-8s\n", "Player", "Current Turn", "Health", "Score");
         for (Player p : players) {
             System.out.println(p);
         }
         System.out.println();
     }
 
+    /**
+     * Self-explanatory
+     */
     private void clearScreen() {
         if (in.hasNextLine()) {
             @SuppressWarnings("unused")

@@ -7,6 +7,7 @@ import java.util.*;
 
 public class App {
     static Scanner in;
+
     public static void main(String[] args) {
         in = new Scanner(System.in);
         Game game = new Game();
@@ -15,52 +16,53 @@ public class App {
 
         do {
             try {
-                System.out.print("Welcome to the Plant Species Database\n" +
-                        "1) Add Plant Species\n" +
-                        "2) Edit Species Entry\n" +
-                        "3) Remove Plant Species\n" +
-                        "4) Display Species Database\n" +
-                        ">> ");
+                System.out.print("Welcome to the Plant Species Database\n" + "1) Start New Game\n"
+                        + "2) Load Previous Game\n" + "3) Explainer\n" + "4) Quit\n" + ">> ");
 
                 choice = in.nextInt();
                 in.nextLine(); // Consume newline
+                System.out.println();
 
                 switch (choice) {
-                    case 1:
-                        System.out.println("Starting a new game...");
-                        for (int i = 0; i < playerNames.length; i++) {
-                            System.out.println("Enter name for Player " + (i + 1) + "\n" + ">> ");
-                            playerNames[i] = in.nextLine();
-                        }
+                case 1:
+                    System.out.println("Starting a new game...");
+                    for (int i = 0; i < playerNames.length; i++) {
+                        System.out.print("Enter name for Player " + (i + 1) + ":\n" + ">> ");
+                        playerNames[i] = in.nextLine();
+                    }
 
-                        if (!game.startNewGame(playerNames)) {
-                            System.out.println("Failed to start a new game.");
-                            break;
-                        }
+                    if (!game.startNewGame(playerNames)) {
+                        System.out.println("Failed to start a new game.");
+                        break;
+                    }
 
-                        game.turn();
-                        break;
-                    case 2:
-                        if (!game.getSavedGamesList()) {
-                            System.out.println("No saved games to load.");
-                        }
-                        System.out.println();
+                    System.out.print("\033[H\033[2J");
+                    System.out.flush();
 
-                        System.out.print("Enter the saved game to load\n" + ">> ");
-                        String filename = in.next();
-                        if (!game.loadPreviousGame(filename)) {
-                            System.out.println("Failed to load the game.");
-                            break;
-                        }
+                    game.turn();
+                    break;
+                case 2:
+                    if (!game.getSavedGamesList()) {
+                        System.out.println("No saved games to load.");
+                    }
+                    System.out.println();
+
+                    System.out.print("Enter the saved game to load\n" + ">> ");
+                    String filename = in.next();
+                    if (!game.loadPreviousGame(filename)) {
+                        System.out.println("Failed to load the game.");
                         break;
-                    case 3:
-                        System.out.println("How to play the game:");
-                        break;
-                    case 4:
-                        choice = -1;
-                        break;
-                    default:
-                        System.out.println("Invalid option");
+                    }
+                    break;
+                case 3:
+                    showHelp();
+                    clearScreen();
+                    break;
+                case 4:
+                    choice = -1;
+                    break;
+                default:
+                    System.out.println("Invalid option");
                 }
             } catch (InputMismatchException e) { // Catches invalid input (i.e. Strings/Chars)
                 System.out.println("Invalid Input");
@@ -69,13 +71,53 @@ public class App {
             } catch (NoSuchElementException e) { // Catches errors when there is no input passed
                 System.out.println("Error reading input");
                 clearScreen();
-            } catch (Exception e) { // In the unlikely event you happen to pass an error that is neither of the above
+            } catch (Exception e) { // In the unlikely event you happen to pass an error that is neither of the
+                                    // above
                 System.out.println("Now how in the hell did you get this?: " + e.getMessage());
                 clearScreen();
             }
         } while (choice != -1);
         System.out.println("Exiting the application.");
         in.close();
+    }
+
+    private static void showHelp() {
+        System.out.println("\n═══════════════════════════════════════════════════════════════");
+        System.out.println("                    PROJECT NOVA - HELP");
+        System.out.println("═══════════════════════════════════════════════════════════════");
+
+        System.out.println("\nThe Premise:");
+        System.out.println("You are a mystical explorer of the deep oceans trying to rescue");
+        System.out.println("the last remaining species of underwater creatures. But beware -");
+        System.out.println("your opponent wants to hunt them down! Find them first!");
+
+        System.out.println("\nHow to Play:");
+        System.out.println("- Players take turns guessing grid coordinates [latitude, longitude]");
+        System.out.println("- If you find part of a creature, you earn 5 points");
+        System.out.println("- Finding the last part of a creature gives a 5-point bonus");
+        System.out.println("- The first player to find all creatures wins!");
+
+        System.out.println("\nBoard Legend:");
+        System.out.println("- '~' - Unknown water (not yet explored)");
+        System.out.println("- 'X' - Missed guess (empty water)");
+        System.out.println("- Letters (c, f, m, etc.) - Creature parts");
+        System.out.println("- 'J' - Jellyfish (Lose 2 points if revealed)");
+        System.out.println("- 'B' - Naval Mine (Lose 25 health if revealed)");
+
+        System.out.println("\nCreatures to Find:");
+        System.out.println("- Crab (c) - Single cell");
+        System.out.println("- Fish (f) - 2 cells horizontal or vertical");
+        System.out.println("- Shark (s) - 3 cells horizontal or vertical");
+        System.out.println("- Eel (e) - 4 cells zig-zag");
+        System.out.println("- Manta Ray (m) - V-shaped (3 cells)");
+        System.out.println("- Anenome (a) - Circle-shaped (4 cells)");
+
+        System.out.println("\nHow to Win:");
+        System.out.println("- Find all the creatures before your opponent does");
+        System.out.println("- Have the most points when the max turns are reached");
+        System.out.println("- If your health reaches 0, you lose!");
+
+        System.out.println("\n" + "═══════════════════════════════════════════════════════════════");
     }
 
     /**
