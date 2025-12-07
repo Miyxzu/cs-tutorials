@@ -133,13 +133,13 @@ public class Board {
         }
 
         // Check surrounding cells within buffer zone
-        for (int dx = -bufferSize; dx <= bufferSize; dx++) {
-            for (int dy = -bufferSize; dy <= bufferSize; dy++) {
-                if (dx == 0 && dy == 0)
+        for (int bufferX = -bufferSize; bufferX <= bufferSize; bufferX++) {
+            for (int bufferY = -bufferSize; bufferY <= bufferSize; bufferY++) {
+                if (bufferX == 0 && bufferY == 0)
                     continue; // Skip the center cell
 
-                int newX = x + dx;
-                int newY = y + dy;
+                int newX = x + bufferX;
+                int newY = y + bufferY;
 
                 // If within bounds and occupied, invalid
                 if (newX >= 0 && newX < 16 && newY >= 0 && newY < 16) {
@@ -153,7 +153,7 @@ public class Board {
     }
 
     /**
-     * Checks if all cells for a multi-cell creature have valid buffer zones
+     * Checks if all cells for a multi-cell creature (i.e. shark, eel, manta) have valid buffer zones
      */
     private boolean checkMultiCellBuffer(int[][] positions, int bufferSize) {
         // First check if all positions are valid
@@ -165,10 +165,10 @@ public class Board {
 
         // Check buffer around each position
         for (int[] pos : positions) {
-            for (int dx = -bufferSize; dx <= bufferSize; dx++) {
-                for (int dy = -bufferSize; dy <= bufferSize; dy++) {
-                    int newX = pos[0] + dx;
-                    int newY = pos[1] + dy;
+            for (int bufferX = -bufferSize; bufferX <= bufferSize; bufferX++) {
+                for (int bufferY = -bufferSize; bufferY <= bufferSize; bufferY++) {
+                    int newX = pos[0] + bufferX;
+                    int newY = pos[1] + bufferY;
 
                     // Skip if this is one of the creature's own cells
                     boolean isOwnCell = false;
@@ -195,23 +195,24 @@ public class Board {
     }
 
     /**
+     * Placement for Fish (2 cells)
      * @return boolean
      */
     private boolean placeFish(int x, int y) {
         // Try opposite orientation first
         if (lastFishOrientation == null || lastFishOrientation.equals("vertical")) {
-            if (placeFishHori(x, y)) {
+            if (placeFishOri(x, y, 0)) {
                 lastFishOrientation = "horizontal";
                 return true;
-            } else if (placeFishVert(x, y)) {
+            } else if (placeFishOri(x, y, 1)) {
                 lastFishOrientation = "vertical";
                 return true;
             }
         } else {
-            if (placeFishVert(x, y)) {
+            if (placeFishOri(x, y, 1)) {
                 lastFishOrientation = "vertical";
                 return true;
-            } else if (placeFishHori(x, y)) {
+            } else if (placeFishOri(x, y, 0)) {
                 lastFishOrientation = "horizontal";
                 return true;
             }
@@ -220,22 +221,23 @@ public class Board {
     }
 
     /**
+     * Placement for Shark (3 cells)
      * @return boolean
      */
     private boolean placeShark(int x, int y) {
         if (lastSharkOrientation == null || lastSharkOrientation.equals("vertical")) {
-            if (placeSharkHori(x, y)) {
+            if (placeSharkOri(x, y, 0)) {
                 lastSharkOrientation = "horizontal";
                 return true;
-            } else if (placeSharkVert(x, y)) {
+            } else if (placeSharkOri(x, y, 1)) {
                 lastSharkOrientation = "vertical";
                 return true;
             }
         } else {
-            if (placeSharkVert(x, y)) {
+            if (placeSharkOri(x, y, 1)) {
                 lastSharkOrientation = "vertical";
                 return true;
-            } else if (placeSharkHori(x, y)) {
+            } else if (placeSharkOri(x, y, 0)) {
                 lastSharkOrientation = "horizontal";
                 return true;
             }
@@ -243,82 +245,94 @@ public class Board {
         return false;
     }
 
-    private boolean placeFishHori(int x, int y) {
-        int[][] positions = { { x, y }, { x, y + 1 } };
-        if (checkMultiCellBuffer(positions, 1)) { // 1-cell buffer
-            InternalBoard[x][y] = "f";
-            InternalBoard[x][y + 1] = "f";
-            return true;
+    /**
+     * Determines placement of Fish/Shark based on orientation
+     * @param x
+     * @param y
+     * @param orientation 0 = horizontal, 1 = vertical
+     * @return boolean Returns success of placement
+     */
+    private boolean placeFishOri(int x, int y, int orientation) {
+        int[][] hori = { { x, y }, { x, y + 1 } };
+        int[][] vert = { { x, y }, { x + 1, y } };
+
+        if (orientation == 0) { // horizontal
+            if (checkMultiCellBuffer(hori, 1)) {
+                InternalBoard[x][y] = "f";
+                InternalBoard[x][y + 1] = "f";
+                return true;
+            }
+        } else { // vertical
+            if (checkMultiCellBuffer(vert, 1)) {
+                InternalBoard[x][y] = "f";
+                InternalBoard[x + 1][y] = "f";
+                return true;
+            }
         }
         return false;
     }
 
-    private boolean placeFishVert(int x, int y) {
-        int[][] positions = { { x, y }, { x + 1, y } };
-        if (checkMultiCellBuffer(positions, 1)) { // 1-cell buffer
-            InternalBoard[x][y] = "f";
-            InternalBoard[x + 1][y] = "f";
-            return true;
+    private boolean placeSharkOri(int x, int y, int orientation) {
+        int[][] hori = { { x, y - 1 }, { x, y }, { x, y + 1 } };
+        int[][] vert = { { x - 1, y }, { x, y }, { x + 1, y } };
+
+        if (orientation == 0) { // horizontal
+            if (checkMultiCellBuffer(hori, 1)) {
+                InternalBoard[x][y - 1] = "s";
+                InternalBoard[x][y] = "s";
+                InternalBoard[x][y + 1] = "s";
+                return true;
+            }
+        } else { // vertical
+            if (checkMultiCellBuffer(vert, 1)) {
+                InternalBoard[x - 1][y] = "s";
+                InternalBoard[x][y] = "s";
+                InternalBoard[x + 1][y] = "s";
+                return true;
+            }
         }
         return false;
     }
 
-    private boolean placeSharkHori(int x, int y) {
-        int[][] positions = { { x, y - 1 }, { x, y }, { x, y + 1 } };
-        if (checkMultiCellBuffer(positions, 1)) { // 1-cell buffer
-            InternalBoard[x][y - 1] = "s";
-            InternalBoard[x][y] = "s";
-            InternalBoard[x][y + 1] = "s";
-            return true;
-        }
-        return false;
-    }
-
-    private boolean placeSharkVert(int x, int y) {
-        int[][] positions = { { x - 1, y }, { x, y }, { x + 1, y } };
-        if (checkMultiCellBuffer(positions, 1)) { // 1-cell buffer
-            InternalBoard[x - 1][y] = "s";
-            InternalBoard[x][y] = "s";
-            InternalBoard[x + 1][y] = "s";
-            return true;
-        }
-        return false;
-    }
-
-    // Eel placement - 4 cells zig-zag pattern
+    /**
+     * Eel placement - 4 cells zig-zag
+     * @param x
+     * @param y
+     * @return boolean Returns success of placement
+     */
     private boolean placeEel(int x, int y) {
         // Try different zig-zag orientations
         // Pattern 1: Right-down-right-down (like stairs going right)
-        int[][] zigzag1 = { { x, y }, { x, y + 1 }, { x + 1, y + 1 }, { x + 1, y + 2 } };
-        if (checkMultiCellBuffer(zigzag1, 1)) {
-            for (int[] pos : zigzag1) {
+        int[][] rdrd = { { x, y }, { x, y + 1 }, { x + 1, y + 1 }, { x + 1, y + 2 } };
+        if (checkMultiCellBuffer(rdrd, 1)) {
+            for (int[] pos : rdrd) {
                 InternalBoard[pos[0]][pos[1]] = "e";
             }
             return true;
         }
 
         // Pattern 2: Down-right-down-right (like stairs going down)
-        int[][] zigzag2 = { { x, y }, { x + 1, y }, { x + 1, y + 1 }, { x + 2, y + 1 } };
-        if (checkMultiCellBuffer(zigzag2, 1)) {
-            for (int[] pos : zigzag2) {
+        int[][] drdr = { { x, y }, { x + 1, y }, { x + 1, y + 1 }, { x + 2, y + 1 } };
+        if (checkMultiCellBuffer(drdr, 1)) {
+            for (int[] pos : drdr) {
                 InternalBoard[pos[0]][pos[1]] = "e";
             }
             return true;
         }
 
         // Pattern 3: Left-down-left-down (mirror of pattern 1)
-        int[][] zigzag3 = { { x, y }, { x, y - 1 }, { x + 1, y - 1 }, { x + 1, y - 2 } };
-        if (checkMultiCellBuffer(zigzag3, 1)) {
-            for (int[] pos : zigzag3) {
+        int[][] ldld = { { x, y }, { x, y - 1 }, { x + 1, y - 1 }, { x + 1, y - 2 } };
+        if (checkMultiCellBuffer(ldld, 1)) {
+            for (int[] pos : ldld) {
                 InternalBoard[pos[0]][pos[1]] = "e";
             }
             return true;
         }
 
         // Pattern 4: Up-right-up-right (mirror of pattern 2)
-        int[][] zigzag4 = { { x, y }, { x - 1, y }, { x - 1, y + 1 }, { x - 2, y + 1 } };
-        if (checkMultiCellBuffer(zigzag4, 1)) {
-            for (int[] pos : zigzag4) {
+        int[][] urur = { { x, y }, { x - 1, y }, { x - 1, y + 1 }, { x - 2, y + 1 } };
+        if (checkMultiCellBuffer(urur, 1)) {
+            for (int[] pos : urur) {
                 InternalBoard[pos[0]][pos[1]] = "e";
             }
             return true;
@@ -327,39 +341,44 @@ public class Board {
         return false;
     }
 
-    // Manta Ray placement - V-shaped (3 cells)
+    /**
+     * Manta Ray placement - V-shaped (3 cells)
+     * @param x
+     * @param y
+     * @return boolean Returns success of placement
+     */
     private boolean placeMantaRay(int x, int y) {
-        // V pointing down
-        int[][] vDown = { { x, y - 1 }, { x + 1, y }, { x, y + 1 } };
-        if (checkMultiCellBuffer(vDown, 1)) {
-            for (int[] pos : vDown) {
+        // pointing down (V)
+        int[][] down = { { x, y - 1 }, { x + 1, y }, { x, y + 1 } };
+        if (checkMultiCellBuffer(down, 1)) {
+            for (int[] pos : down) {
                 InternalBoard[pos[0]][pos[1]] = "m";
             }
             return true;
         }
 
-        // V pointing up
-        int[][] vUp = { { x, y - 1 }, { x - 1, y }, { x, y + 1 } };
-        if (checkMultiCellBuffer(vUp, 1)) {
-            for (int[] pos : vUp) {
+        // pointing up (^)
+        int[][] up = { { x, y - 1 }, { x - 1, y }, { x, y + 1 } };
+        if (checkMultiCellBuffer(up, 1)) {
+            for (int[] pos : up) {
                 InternalBoard[pos[0]][pos[1]] = "m";
             }
             return true;
         }
 
-        // V pointing right
-        int[][] vRight = { { x - 1, y }, { x, y + 1 }, { x + 1, y } };
-        if (checkMultiCellBuffer(vRight, 1)) {
-            for (int[] pos : vRight) {
+        // pointing right (>)
+        int[][] Right = { { x - 1, y }, { x, y + 1 }, { x + 1, y } };
+        if (checkMultiCellBuffer(Right, 1)) {
+            for (int[] pos : Right) {
                 InternalBoard[pos[0]][pos[1]] = "m";
             }
             return true;
         }
 
-        // V pointing left
-        int[][] vLeft = { { x - 1, y }, { x, y - 1 }, { x + 1, y } };
-        if (checkMultiCellBuffer(vLeft, 1)) {
-            for (int[] pos : vLeft) {
+        // pointing left (<)
+        int[][] Left = { { x - 1, y }, { x, y - 1 }, { x + 1, y } };
+        if (checkMultiCellBuffer(Left, 1)) {
+            for (int[] pos : Left) {
                 InternalBoard[pos[0]][pos[1]] = "m";
             }
             return true;
@@ -368,7 +387,12 @@ public class Board {
         return false;
     }
 
-    // Anenome placement - Circle/square shape (4 cells in 2x2)
+    /**
+     * Anenome placement - 4 cells circle-shaped (2x2)
+     * @param x
+     * @param y
+     * @return boolean Returns success of placement
+     */
     private boolean placeAnenome(int x, int y) {
         int[][] square = { { x, y }, { x, y + 1 }, { x + 1, y }, { x + 1, y + 1 } };
         if (checkMultiCellBuffer(square, 1)) {

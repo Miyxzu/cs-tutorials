@@ -13,8 +13,7 @@ public class Game {
     private static final int MAX_TURN_TIME = 120; // in seconds
 
     /**
-     * Constructor
-     * Sets up initial game state
+     * Constructor Sets up initial game state
      */
     public Game() {
         players = new Player[2];
@@ -24,6 +23,7 @@ public class Game {
 
     /**
      * Starts a new game with provided player names
+     * 
      * @param playerNames Array of player names
      * @return boolean Returns whether game started successfully
      */
@@ -40,6 +40,7 @@ public class Game {
 
     /**
      * Saves the current game state to a file
+     * 
      * @param filename Name of the file to save the game state
      * @throws IOException If an I/O error occurs
      */
@@ -92,6 +93,7 @@ public class Game {
 
     /**
      * Loads a previously saved game state from a file
+     * 
      * @param filename Name of the file to load the game state from
      * @return boolean Returns whether the game was loaded successfully
      * @throws IOException If an I/O error occurs
@@ -103,7 +105,7 @@ public class Game {
             return false;
         }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
 
             while ((line = br.readLine()) != null && !line.equals("GAME_STATE")) {
@@ -114,7 +116,7 @@ public class Game {
             br.readLine(); // Skip empty line
 
             for (int i = 0; i < players.length; i++) {
-                br.read(); // Skip player header
+                br.readLine(); // Skip player header
                 String name = br.readLine().split("=")[1];
                 int health = Integer.parseInt(br.readLine().split("=")[1]);
                 int score = Integer.parseInt(br.readLine().split("=")[1]);
@@ -129,7 +131,16 @@ public class Game {
                 br.readLine(); // Skip INTERNAL_BOARD header
                 String[][] internalBoard = new String[16][16];
                 for (int row = 0; row < 16; row++) {
-                    String[] cells = br.readLine().split(" ");
+                    line = br.readLine();
+                    if (line == null || line.trim().isEmpty()) {
+                        System.out.println("Error: Incomplete internal board data at row " + row);
+                        return false;
+                    }
+                    String[] cells = line.trim().split(" ");
+                    if (cells.length != 16) {
+                        System.out.println("Error: Expected 16 cells but got " + cells.length + " at row " + row);
+                        return false;
+                    }
                     for (int col = 0; col < 16; col++) {
                         internalBoard[row][col] = cells[col].equals("~") ? null : cells[col];
                     }
@@ -140,11 +151,22 @@ public class Game {
                 br.readLine(); // Skip PLAYER_BOARD header
                 boolean[][] playerBoard = new boolean[16][16];
                 for (int row = 0; row < 16; row++) {
-                    String[] cells = br.readLine().split(" ");
+                    line = br.readLine();
+                    if (line == null || line.trim().isEmpty()) {
+                        System.out.println("Error: Incomplete player board data at row " + row);
+                        return false;
+                    }
+                    String[] cells = line.trim().split(" ");
+                    if (cells.length != 16) {
+                        System.out.println("Error: Expected 16 cells but got " + cells.length + " at row " + row);
+                        return false;
+                    }
                     for (int col = 0; col < 16; col++) {
                         playerBoard[row][col] = cells[col].equals("1");
                     }
                 }
+
+                line = br.readLine(); // Skip empty line
 
                 players[i].overrideCurrentBoards(internalBoard, playerBoard, creaturesLeft);
             }
@@ -155,15 +177,24 @@ public class Game {
 
             System.out.println("Game loaded successfully.");
             return true;
+        } catch (NumberFormatException e) {
+            System.out.println("Error loading game: Invalid number format - " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Error loading game: Missing data in save file - " + e.getMessage());
+            e.printStackTrace();
+            return false;
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println("Error loading game: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
 
     /**
      * Lists all saved games in the SavedGames directory
+     * 
      * @return boolean Returns whether there are saved games to list
      */
     public boolean getSavedGamesList() {
@@ -186,8 +217,7 @@ public class Game {
     }
 
     /**
-     * Manages a player's turn
-     * Check each switch case for details
+     * Manages a player's turn Check each switch case for details
      */
     public void turn() {
         int choice = 0;
@@ -199,7 +229,6 @@ public class Game {
         turnTimer();
 
         // Display current player's board and status
-        players[currentPlayerIndex].board.getInternalBoard();
         players[currentPlayerIndex].displayBoard();
         getPlayerList();
         System.out.println("Turn " + currentTurn + ": It's " + players[currentPlayerIndex].getName() + "'s turn.");
@@ -276,6 +305,12 @@ public class Game {
                 }
 
                 turnTimer();
+                System.out.print("\nChoose an action:\n" + "1) Explore\n" + "2) Save Current Gamestate\n"
+                        + "3) Quit Game\n" + ">> ");
+
+                choice = in.nextInt();
+                in.nextLine(); // Consume newline
+                System.out.println();
                 break;
             case 3: // Quit Game w/o Saving
                 gameTimer.cancel();
@@ -328,8 +363,7 @@ public class Game {
     }
 
     /**
-     * See https://stackoverflow.com/a/4044793
-     * Creates a timer for the player's turn
+     * See https://stackoverflow.com/a/4044793 Creates a timer for the player's turn
      */
     private void turnTimer() {
         gameTimer = new Timer();
@@ -360,8 +394,8 @@ public class Game {
     }
 
     /**
-     * Checks if the game has finished and declares a winner if so
-     * if not, switches turns and continues the game
+     * Checks if the game has finished and declares a winner if so if not, switches
+     * turns and continues the game
      */
     private void checkForGameFinished() {
         int highestScore = 0;

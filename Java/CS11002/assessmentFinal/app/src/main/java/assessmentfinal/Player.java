@@ -24,15 +24,26 @@ public class Player extends Board {
      */
     public void displayBoard() {
         System.out.println("\n=== YOUR OCEAN VIEW ===");
+        
+        // Print column numbers (0-15)
+        System.out.print("   "); // Offset for row numbers
+        for (int col = 0; col < 16; col++) {
+            System.out.printf("%2d ", col);
+        }
+        System.out.println();
+        
         for (int i = 0; i < board.InternalBoard.length; i++) {
+            // Print row number
+            System.out.printf("%2d ", i);
+            
             for (int j = 0; j < board.InternalBoard[i].length; j++) {
                 if (board.PlayerBoard[i][j]) {
                     // Revealed - show what's there
                     String cell = board.InternalBoard[i][j] != null ? board.InternalBoard[i][j] : "X";
-                    System.out.print(cell.toUpperCase() + " ");
+                    System.out.print(cell.toUpperCase() + "  ");
                 } else {
                     // Not revealed yet - show fog
-                    System.out.print("~ ");
+                    System.out.print("~  ");
                 }
             }
             System.out.println();

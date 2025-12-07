@@ -16,7 +16,7 @@ public class App {
 
         do {
             try {
-                System.out.print("Welcome to the Plant Species Database\n" + "1) Start New Game\n"
+                System.out.print("Project Nova\n" + "1) Start New Game\n"
                         + "2) Load Previous Game\n" + "3) Explainer\n" + "4) Quit\n" + ">> ");
 
                 choice = in.nextInt();
@@ -44,6 +44,8 @@ public class App {
                 case 2:
                     if (!game.getSavedGamesList()) {
                         System.out.println("No saved games to load.");
+                        clearScreen();
+                        break;
                     }
                     System.out.println();
 
@@ -53,6 +55,12 @@ public class App {
                         System.out.println("Failed to load the game.");
                         break;
                     }
+
+                    System.out.print("\033[H\033[2J");
+                    System.out.flush();
+
+                    game.turn();
+
                     break;
                 case 3:
                     showHelp();
