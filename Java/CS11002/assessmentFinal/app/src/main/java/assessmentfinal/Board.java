@@ -18,7 +18,12 @@ public class Board {
     public Board() {
         InternalBoard = new String[16][16];
         PlayerBoard = new boolean[16][16];
-        creaturesLeft = creatures.size();
+        creaturesLeft = 0;
+        for (String creature : creatures) {
+            if (!creature.equals("b") && !creature.equals("j")) {
+                creaturesLeft++;
+            }
+        }
     }
 
     /**

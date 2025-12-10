@@ -16,8 +16,8 @@ public class App {
 
         do {
             try {
-                System.out.print("Project Nova\n" + "1) Start New Game\n"
-                        + "2) Load Previous Game\n" + "3) Explainer\n" + "4) Quit\n" + ">> ");
+                System.out.print("Project Nova\n" + "1) Start New Game\n" + "2) Load Previous Game\n" + "3) Explainer\n"
+                        + "4) Quit\n" + ">> ");
 
                 choice = in.nextInt();
                 in.nextLine(); // Consume newline
@@ -49,8 +49,15 @@ public class App {
                     }
                     System.out.println();
 
-                    System.out.print("Enter the saved game to load\n" + ">> ");
-                    String filename = in.next();
+                    System.out.print("Enter the saved game to load or 'exit' to exit\n" + ">> ");
+                    String filename = in.nextLine();
+
+                    if (filename.equalsIgnoreCase("exit")) {
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush();
+                        break;
+                    }
+
                     if (!game.loadPreviousGame(filename)) {
                         System.out.println("Failed to load the game.");
                         break;

@@ -73,7 +73,7 @@ public class Player extends Board {
         if (board.InternalBoard[x][y] != null) {
             String cell = board.InternalBoard[x][y];
 
-            if (!cell.equals("b") && !cell.equals("j")) {
+            if (!cell.equals("b") && !cell.equals("j") && !cell.equals("X")) {
                 // Hit! Show what creature it is
                 System.out.println("Hit! You found: " + cell.toUpperCase() + "!");
                 score += 5;
@@ -83,6 +83,7 @@ public class Player extends Board {
                     String creatureName = getCreatureName(cell);
                     score += 5;
                     System.out.println("Bonus! You fully discovered a " + creatureName + "!");
+                    board.creaturesLeft--;
                 }
 
             } else if (cell.equals("b")) { // Hit bomb: lose health
@@ -92,8 +93,6 @@ public class Player extends Board {
                 System.out.println("Oh no! You hit a jellyfish!");
                 score -= 2;
             }
-
-            creaturesLeft--;
         } else {
             // Miss - mark with X
             System.out.println("Miss!");
@@ -300,7 +299,7 @@ public class Player extends Board {
                 int nx = x + offset[0];
                 int ny = y + offset[1];
                 
-                if (!board.validPositioning(nx, ny) || 
+                if (!isValidCell(nx, ny) || 
                     !creatureType.equals(board.InternalBoard[nx][ny]) ||
                     !board.PlayerBoard[nx][ny]) {
                     allRevealed = false;

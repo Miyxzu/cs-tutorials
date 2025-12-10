@@ -9,8 +9,8 @@ public class Game {
     private int currentPlayerIndex;
     private int currentTurn;
     private Timer gameTimer;
-    private static final int MAX_TURNS = 30;
-    private static final int MAX_TURN_TIME = 120; // in seconds
+    private static final int MAX_TURNS = 100;
+    private static final int MAX_TURN_TIME = 180; // in seconds
 
     /**
      * Constructor Sets up initial game state
@@ -222,6 +222,7 @@ public class Game {
     public void turn() {
         int choice = 0;
         boolean playing = true;
+        boolean timeExpired = false;
         String filename = "";
         String overwrite = "";
         File checkFile;
@@ -245,7 +246,17 @@ public class Game {
             switch (choice) {
             case 1: // Guess
                 System.out.print("Enter your guess (X, Y): ");
-                String coords = in.nextLine();
+                String coords = "";
+
+                try {
+                    coords = in.nextLine();
+                } catch (Exception e) {
+                    // Timer expired during input
+                    gameTimer.cancel();
+                    timeExpired = true;
+                    break;
+                }
+
                 String[] parts;
                 if (!coords.contains(", ")) {
                     if (!coords.contains(",")) {
@@ -270,11 +281,21 @@ public class Game {
                     }
                 }
 
-                // Accounting for the fact that 2D array is [Y][X]
-                int x = Integer.parseInt(parts[1]);
-                int y = Integer.parseInt(parts[0]);
-                players[currentPlayerIndex].Guess(x, y);
-                choice = -1;
+                try {
+                    // Accounting for the fact that 2D array is [Y][X]
+                    int x = Integer.parseInt(parts[1].trim());
+                    int y = Integer.parseInt(parts[0].trim());
+
+                    // Cancel timer before processing guess
+                    gameTimer.cancel();
+
+                    players[currentPlayerIndex].Guess(x, y);
+                    choice = -1;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid coordinates. Please enter numbers.");
+                    choice = -1;
+                }
+
                 break;
             case 2: // Save Game
                 gameTimer.cancel();
@@ -357,7 +378,11 @@ public class Game {
                 System.out.println("Invalid option");
             }
         }
-        if (playing) {
+        if (playing && !timeExpired) {
+            checkForGameFinished();
+        } else if (timeExpired) {
+            System.out.println("\nTime has expired for this turn.");
+            System.out.println("Your turn has ended.");
             checkForGameFinished();
         }
     }
@@ -370,8 +395,8 @@ public class Game {
         gameTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("\nTime's up! Your turn is over.");
-                checkForGameFinished();
+                System.out.println("\n\n=== TIME'S UP! ===");
+                System.out.println("Your turn has ended.");
             }
         }, (long) (MAX_TURN_TIME * 1000));
     }
