@@ -12,3 +12,6 @@ CSharp/general/obj/
 # Python build/artifacts
 __pycache__/
 *.egg-info/
+
+# Extra stuff
+other/Fetchr-5.3-beta5.zip
