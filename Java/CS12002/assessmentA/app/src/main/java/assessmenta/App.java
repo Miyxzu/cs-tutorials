@@ -6,11 +6,42 @@ package assessmenta;
 import java.util.*;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+    static Scanner in;
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        in = new Scanner(System.in);
+        IncidentResponse ir = new IncidentResponse();
+        int choice = 0;
+
+        do {
+            try {
+
+            } catch (InputMismatchException e) { // Catches invalid input (i.e. Strings/Chars)
+                System.out.println("Invalid Input");
+                in.next();
+                clearScreen();
+            } catch (NoSuchElementException e) { // Catches errors when there is no input passed
+                System.out.println("Error reading input");
+                clearScreen();
+            } catch (Exception e) { // In the unlikely event you happen to pass an error that is neither of the
+                                    // above
+                System.out.println("Now how in the hell did you get this?: " + e.getMessage());
+                clearScreen();
+            }
+        } while (choice != -1);
+    }
+
+    /**
+     * Clears the console
+     */
+    static void clearScreen() {
+        if (in.hasNextLine()) {
+            @SuppressWarnings("unused")
+            String leftover = in.nextLine();
+        }
+        System.out.println("Press Enter to continue...");
+        in.nextLine();
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

@@ -1,8 +1,10 @@
 package assessmenta;
 
+import java.time.*;
 import java.util.*;
 
 public class IncidentResponse {
+
     private Deque<Incident> incidentQueue;
     // private Map<String, Deque<Incident>> districtIncidents;
     private Set<String> incidentTypes;
@@ -22,12 +24,20 @@ public class IncidentResponse {
         incidentTypes.add(type);
     }
 
+    public void currentIncidents() {
+        System.out.println("Current incidents in queue:");
+        for (Incident i : incidentQueue) {
+            System.out.printf("%-40s%-15s%-15s%-8s%n", "ID", "Incident Type", "District", "Timestamp");
+            System.out.println(i);
+        }
+    }
+
     public void assignIncident() {
         if (incidentQueue.isEmpty()) {
             System.out.println("No incidents to assign");
         } else {
-            System.out.printf("%-25s%-15s%-15s%-8d%n", "ID", "Incident Type", "District", "Timestamp");
-            System.out.println(incidentQueue.poll());
+            System.out.printf("%-40s%-15s%-15s%-8s%n", "ID", "Incident Type", "District", "Timestamp");
+            System.out.println(incidentQueue.pollFirst());
         }
     }
 
@@ -99,4 +109,18 @@ public class IncidentResponse {
 // leave for last once everything else is done
 class SystemLog<T> {
     private List<T> logEntries;
+
+    public SystemLog() {
+        this.logEntries = new LinkedList<>();
+    }
+
+    public void add(T entry) {
+        logEntries.add(entry);
+    }
+
+    public void printLog() {
+        for (T entry : logEntries) {
+            System.out.println(Instant.now() + ":" + entry);
+        }
+    }
 }

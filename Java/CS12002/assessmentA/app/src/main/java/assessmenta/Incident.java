@@ -4,6 +4,7 @@ import java.time.*;
 import java.util.*;
 
 public class Incident {
+
     private String type;
     private String district;
     private UUID id;
@@ -50,6 +51,6 @@ public class Incident {
 
     @Override
     public String toString() {
-        return String.format("%-25s%-15s%-15s%-8d%n", id, type, district, (Duration.between(timestamp, Instant.now()).toMinutes()));
+        return String.format("%-40s%-15s%-15s%-8d%n", id, type, district, (Duration.between(timestamp, Instant.now()).toSeconds()));
     }
 }
