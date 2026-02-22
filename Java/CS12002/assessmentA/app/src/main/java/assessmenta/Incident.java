@@ -5,14 +5,22 @@ import java.util.*;
 
 public class Incident {
 
+    public static void main(String[] args) {
+        Incident i = new Incident("Medical", "District 1", true);
+        System.out.printf("%-20s%-20s%-15s%-15s%-10s%-10s%n", "ID", "Timestamp", "Incident Type", "District", "Duration", "Priority");
+        System.out.println(i);
+    }
+
     private String type;
     private String district;
     private UUID id;
     private Instant timestamp;
+    private boolean isPriority;
 
-    public Incident(String type, String district) {
+    public Incident(String type, String district, boolean isPriority) {
         this.type = type;
         this.district = district;
+        this.isPriority = isPriority;
         this.id = UUID.randomUUID();
         this.timestamp = Instant.now();
     }
@@ -51,6 +59,8 @@ public class Incident {
 
     @Override
     public String toString() {
-        return String.format("%-40s%-15s%-15s%-8d%n", id, type, district, (Duration.between(timestamp, Instant.now()).toSeconds()));
+        return String.format("%-20s%-20s%-15s%-15s%-10d%-10s%n", id.toString().substring(0, 18),
+                timestamp.toString().substring(0, 19), type, district,
+                (Duration.between(timestamp, Instant.now()).toSeconds()), isPriority ? "Yes" : "No");
     }
 }

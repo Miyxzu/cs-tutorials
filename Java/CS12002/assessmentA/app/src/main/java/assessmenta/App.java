@@ -3,6 +3,7 @@
  */
 package assessmenta;
 
+import java.time.Instant;
 import java.util.*;
 
 public class App {
@@ -11,10 +12,168 @@ public class App {
     public static void main(String[] args) {
         in = new Scanner(System.in);
         IncidentResponse ir = new IncidentResponse();
+        SystemLog<Object> log = new SystemLog<>();
         int choice = 0;
+        String type, district;
 
         do {
             try {
+                System.out.print("Emergency Dispatch Queue System\n" +
+                        "1) Report New Incident\n" +
+                        "2) View Current Incidents\n" +
+                        "3) Assign Incident\n" +
+                        "4) View Occurred Incident Types\n" +
+                        "5) Search Incident Queue\n" +
+                        "6) Trend Analysis\n" +
+                        "7) See System Log\n" +
+                        "8) Exit\n" +
+                        ">> ");
+
+                choice = in.nextInt();
+                in.nextLine(); // Consume newline
+
+                switch (choice) {
+                    case 1:
+                        type = null;
+                        district = null;
+                        String priority = null;
+
+                        System.out.print("\nEnter incident type:\n>> ");
+                        while (type == null) {
+                            type = in.nextLine();
+                            if (type.trim().isEmpty()) {
+                                System.out.println("Incident type cannot be empty, please enter a valid type:");
+                                type = null;
+                            }
+                        }
+
+                        System.out.print("Enter incident district:\n>> ");
+                        while (district == null) {
+                            district = in.nextLine();
+                            if (district.trim().isEmpty()) {
+                                System.out.println("District cannot be empty, please enter a valid district:");
+                                district = null;
+                            }
+                        }
+
+                        System.out.print("Is this a priority incident? (y/n)\n>> ");
+                        while (priority == null) {
+                            priority = in.nextLine();
+                            if (!priority.equalsIgnoreCase("y") && !priority.equalsIgnoreCase("n")) {
+                                System.out.println("Invalid input, please enter 'y' or 'n'");
+                                priority = null;
+                            }
+                        }
+
+                        boolean isPriority = priority.equalsIgnoreCase("y");
+                        ir.addIncident(type, district, isPriority);
+                        log.add("(" + Instant.now() + ") Reported Incident: " + new Incident(type, district, isPriority));
+                        System.out.println("Incident reported successfully.");
+                        clearScreen();
+                        break;
+                    case 2:
+                        System.out.println();
+                        ir.currentIncidents();
+                        clearScreen();
+                        break;
+                    case 3:
+                        System.out.println("\nGetting head incident...\n");
+                        System.out.printf("%-20s%-20s%-15s%-15s%-10s%-10s%n", "ID", "Timestamp", "Incident Type",
+                                "District", "Duration", "Priority");
+                        System.out.println(ir.getHeadIncident());
+                        System.out.print("Would you like to assign this incident? (y/n)\n>> ");
+                        String assign = in.nextLine();
+                        if (assign.equalsIgnoreCase("y")) {
+                            ir.assignIncident();
+                            log.add("(" + Instant.now() + ") Assigned incident " + ir.getHeadIncident());
+                        } else {
+                            System.out.println("Incident not assigned.");
+                        }
+
+                        clearScreen();
+                        break;
+                    case 4:
+                        System.out.println();
+                        ir.incidentOccurred();
+                        clearScreen();
+                        break;
+                    case 5:
+                        int select = 0;
+                        type = null;
+                        district = null;
+
+                        do {
+                            try {
+                                System.out.print("\nSearch by:\n1) Type/District\n2) Type\n3) District\n>> ");
+                                select = in.nextInt();
+                                in.nextLine(); // Consume newline
+                            } catch (Exception e) {
+                                System.out.println("Invalid option, please use numbers only");
+                                in.nextLine(); // Consume invalid input
+                                select = 0;
+                                continue;
+                            }
+
+                            switch (select) {
+                                case 1:
+                                    System.out.print("Enter incident type\n>> ");
+                                    type = in.nextLine();
+                                    System.out.print("Enter incident district\n>> ");
+                                    district = in.nextLine();
+
+                                    if (type == null) {
+                                        System.out.println("Incident type cannot be empty");
+                                        select = 0;
+                                    }
+                                    if (district == null) {
+                                        System.out.println("Incident district cannot be empty");
+                                        select = 0;
+                                    }
+
+                                    break;
+                                case 2:
+                                    System.out.print("Enter incident type:\n>> ");
+                                    type = in.nextLine();
+                                    if (type == null) {
+                                        System.out.println("Incident type cannot be empty");
+                                        select = 0;
+                                    }
+                                    break;
+                                case 3:
+                                    System.out.print("Enter incident district:\n>> ");
+                                    district = in.nextLine();
+                                    if (district == null) {
+                                        System.out.println("Incident district cannot be empty");
+                                        select = 0;
+                                    }
+                                    break;
+                                default:
+                                    System.out.println("Invalid option");
+                                    select = 0;
+                                    break;
+                            }
+                        } while (select == 0);
+
+                        ir.searchIncidentDatabase(type, district);
+                        clearScreen();
+                        break;
+                    case 6:
+                        System.out.println();
+                        ir.trendAnalysis();
+                        clearScreen();
+                        break;
+                    case 7:
+                        System.out.println();
+                        System.out.println("\nSystem Log:");
+                        log.printLog();
+                        clearScreen();
+                        break;
+                    case 8:
+                        choice = -1;
+                        break;
+                    default:
+                        break;
+                }
 
             } catch (InputMismatchException e) { // Catches invalid input (i.e. Strings/Chars)
                 System.out.println("Invalid Input");
@@ -29,18 +188,19 @@ public class App {
                 clearScreen();
             }
         } while (choice != -1);
+        System.out.println("Exiting Emergency Dispatch Queue System...");
+        in.close();
     }
 
     /**
      * Clears the console
      */
     static void clearScreen() {
+        System.out.println("Press Enter to continue...");
         if (in.hasNextLine()) {
             @SuppressWarnings("unused")
             String leftover = in.nextLine();
         }
-        System.out.println("Press Enter to continue...");
-        in.nextLine();
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }

@@ -3,10 +3,382 @@
  */
 package assessmenta;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import java.io.*;
+import java.util.NoSuchElementException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // Helpers used by both IncidentResponse and App tests
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /** Redirect System.out to a buffer and return it. */
+    private ByteArrayOutputStream captureOut() {
+        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(buf));
+        return buf;
+    }
+
+    /** Restore System.out to the real console. */
+    @AfterEach
+    void restoreOut() {
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+        System.setIn(System.in);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // IncidentResponse Tests
+    // ─────────────────────────────────────────────────────────────────────────
+
+    // --- addIncident / getHeadIncident ---
+
+    @Test
+    void addPriorityIncidentGoesToFront() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("Fire", "North", false);
+        ir.addIncident("Medical", "South", true); // priority → goes to front
+        assertEquals("Medical", ir.getHeadIncident().getType());
+    }
+
+    @Test
+    void addNonPriorityIncidentGoesToBack() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("Fire", "North", false);
+        ir.addIncident("Medical", "South", false);
+        // First inserted is still head
+        assertEquals("Fire", ir.getHeadIncident().getType());
+    }
+
+    @Test
+    void addMultiplePriorityIncidentsPreservesOrder() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("Fire", "North", true);
+        ir.addIncident("Medical", "South", true); // becomes new head
+        assertEquals("Medical", ir.getHeadIncident().getType());
+    }
+
+    @Test
+    void getHeadIncidentOnEmptyQueueReturnsNull() {
+        IncidentResponse ir = new IncidentResponse();
+        assertNull(ir.getHeadIncident());
+    }
+
+    @Test
+    void getHeadIncidentDoesNotRemoveElement() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("Traffic", "East", false);
+        ir.getHeadIncident();
+        assertNotNull(ir.getHeadIncident()); // still in queue
+    }
+
+    // --- assignIncident ---
+
+    @Test
+    void assignIncidentOnEmptyQueuePrintsMessage() {
+        IncidentResponse ir = new IncidentResponse();
+        ByteArrayOutputStream out = captureOut();
+        ir.assignIncident();
+        assertTrue(out.toString().contains("No incidents to assign"));
+    }
+
+    @Test
+    void assignIncidentRemovesHead() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("Fire", "North", false);
+        ir.addIncident("Medical", "South", false);
+        ir.assignIncident(); // removes Fire
+        assertEquals("Medical", ir.getHeadIncident().getType());
+    }
+
+    @Test
+    void assignIncidentUntilEmpty() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("Fire", "North", false);
+        ir.assignIncident();
+        assertNull(ir.getHeadIncident());
+    }
+
+    // --- incidentOccurred ---
+
+    @Test
+    void incidentOccurredWithNoIncidentsPrintsMessage() {
+        IncidentResponse ir = new IncidentResponse();
+        ByteArrayOutputStream out = captureOut();
+        ir.incidentOccurred();
+        assertTrue(out.toString().contains("No incidents recorded yet"));
+    }
+
+    @Test
+    void incidentOccurredListsUniqueTypes() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("Fire", "North", false);
+        ir.addIncident("Fire", "South", false); // duplicate type
+        ir.addIncident("Medical", "East", false);
+        ByteArrayOutputStream out = captureOut();
+        ir.incidentOccurred();
+        String output = out.toString();
+        assertTrue(output.contains("Fire"));
+        assertTrue(output.contains("Medical"));
+        // Only one "Fire" entry in the set (count occurrences)
+        int fireCount = output.split("Fire", -1).length - 1;
+        assertEquals(1, fireCount);
+    }
+
+    // --- currentIncidents ---
+
+    @Test
+    void currentIncidentsPrintsHeader() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("Fire", "North", false);
+        ByteArrayOutputStream out = captureOut();
+        ir.currentIncidents();
+        String output = out.toString();
+        assertTrue(output.contains("Current incidents in queue:"));
+        assertTrue(output.contains("Incident Type"));
+    }
+
+    @Test
+    void currentIncidentsWithEmptyQueuePrintsHeaderOnly() {
+        IncidentResponse ir = new IncidentResponse();
+        ByteArrayOutputStream out = captureOut();
+        ir.currentIncidents();
+        assertTrue(out.toString().contains("Current incidents in queue:"));
+    }
+
+    // --- searchIncidentDatabase ---
+
+    @Test
+    void searchByTypeFindsMatch() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("Fire", "North", false);
+        ir.addIncident("Medical", "South", false);
+        ByteArrayOutputStream out = captureOut();
+        ir.searchIncidentDatabase("Fire", null);
+        assertTrue(out.toString().contains("Fire"));
+    }
+
+    @Test
+    void searchByDistrictFindsMatch() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("Fire", "North", false);
+        ir.addIncident("Medical", "South", false);
+        ByteArrayOutputStream out = captureOut();
+        ir.searchIncidentDatabase(null, "North");
+        assertTrue(out.toString().contains("North"));
+    }
+
+    @Test
+    void searchByTypeAndDistrictFindsMatch() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("Fire", "North", false);
+        ir.addIncident("Fire", "South", false);
+        ByteArrayOutputStream out = captureOut();
+        ir.searchIncidentDatabase("Fire", "North");
+        assertTrue(out.toString().contains("North"));
+    }
+
+    @Test
+    void searchBothNullPrintsNoIncidentsFound() {
+        IncidentResponse ir = new IncidentResponse();
+        ByteArrayOutputStream out = captureOut();
+        ir.searchIncidentDatabase(null, null);
+        assertTrue(out.toString().contains("No incidents found"));
+    }
+
+    @Test
+    void searchIsCaseInsensitive() {
+        IncidentResponse ir = new IncidentResponse();
+        ir.addIncident("fire", "north", false);
+        ByteArrayOutputStream out = captureOut();
+        ir.searchIncidentDatabase("FIRE", "NORTH");
+        assertTrue(out.toString().contains("fire"));
+    }
+
+    // --- trendAnalysis ---
+
+    @Test
+    void trendAnalysisShowsUnionIntersectionDifference() {
+        IncidentResponse ir = new IncidentResponse();
+        // yesterdaysIncidents = {Medical, Security, Traffic}
+        ir.addIncident("Medical", "North", false); // overlaps with yesterday
+        ir.addIncident("Fire", "South", false);    // new today only
+        ByteArrayOutputStream out = captureOut();
+        ir.trendAnalysis();
+        String output = out.toString();
+        assertTrue(output.contains("Union"));
+        assertTrue(output.contains("Intersection"));
+        assertTrue(output.contains("Difference"));
+        // Intersection must contain Medical (in both)
+        String intersection = output.substring(output.indexOf("Intersection"));
+        assertTrue(intersection.contains("Medical"));
+        // Difference (today \ yesterday) must contain Fire
+        String difference = output.substring(output.indexOf("Difference"));
+        assertTrue(difference.contains("Fire"));
+    }
+
+    @Test
+    void trendAnalysisEmptyTodayIntersectionIsEmpty() {
+        IncidentResponse ir = new IncidentResponse();
+        // No incidents added → today's set is empty
+        ByteArrayOutputStream out = captureOut();
+        ir.trendAnalysis();
+        String output = out.toString();
+        String intersection = output.substring(output.indexOf("Intersection"));
+        assertTrue(intersection.contains("[]"));
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // App Menu Tests  (simulate stdin, capture stdout)
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /** Feed the given input string to App.main and return stdout. */
+    private String runApp(String input) {
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        ByteArrayOutputStream out = captureOut();
+        try {
+            App.main(new String[]{});
+        } catch (NoSuchElementException ignored) {
+            // Scanner exhausted – acceptable in tests
+        }
+        return out.toString();
+    }
+
+    @Test
+    void option8ExitsImmediately() {
+        String output = runApp("8\n");
+        assertTrue(output.contains("Exiting Emergency Dispatch Queue System..."));
+    }
+
+    @Test
+    void invalidMenuOptionHandledGracefully() {
+        // "abc" triggers InputMismatchException, then "8" exits
+        String output = runApp("abc\n8\n");
+        assertTrue(output.contains("Invalid Input"));
+    }
+
+    @Test
+    void option1ReportNewIncidentNonPriority() {
+        // 1 → type → district → n (not priority) → Enter → 8 exit
+        String output = runApp("1\nFire\nNorth\nn\n\n8\n");
+        assertTrue(output.contains("Incident reported successfully."));
+    }
+
+    @Test
+    void option1ReportNewIncidentPriority() {
+        String output = runApp("1\nMedical\nSouth\ny\n\n8\n");
+        assertTrue(output.contains("Incident reported successfully."));
+    }
+
+    @Test
+    void option1InvalidPriorityInputRetries() {
+        // First priority answer invalid, second valid
+        String output = runApp("1\nFire\nNorth\nmaybe\ny\n\n8\n");
+        assertTrue(output.contains("Invalid input, please enter 'y' or 'n'"));
+        assertTrue(output.contains("Incident reported successfully."));
+    }
+
+    @Test
+    void option2ViewCurrentIncidents() {
+        // Add one incident then view
+        String output = runApp("1\nFire\nNorth\nn\n\n2\n\n8\n");
+        assertTrue(output.contains("Current incidents in queue:"));
+    }
+
+    @Test
+    void option2ViewCurrentIncidentsWhenEmpty() {
+        String output = runApp("2\n\n8\n");
+        assertTrue(output.contains("Current incidents in queue:"));
+    }
+
+    @Test
+    void option3AssignIncidentConfirmedYes() {
+        // Add incident, then assign it (y)
+        String output = runApp("1\nFire\nNorth\nn\n\n3\ny\n\n8\n");
+        assertTrue(output.contains("Getting head incident..."));
+    }
+
+    @Test
+    void option3AssignIncidentDeclinedNo() {
+        String output = runApp("1\nFire\nNorth\nn\n\n3\nn\n\n8\n");
+        assertTrue(output.contains("Incident not assigned."));
+    }
+
+    @Test
+    void option3AssignWhenQueueEmpty() {
+        // No incidents added, assign should show null head then "No incidents to assign"
+        String output = runApp("3\nn\n\n8\n");
+        assertTrue(output.contains("Getting head incident..."));
+    }
+
+    @Test
+    void option4ViewOccurredTypesWhenEmpty() {
+        String output = runApp("4\n\n8\n");
+        assertTrue(output.contains("No incidents recorded yet"));
+    }
+
+    @Test
+    void option4ViewOccurredTypesAfterAdding() {
+        String output = runApp("1\nFire\nNorth\nn\n\n4\n\n8\n");
+        assertTrue(output.contains("Unique incident types recorded:"));
+        assertTrue(output.contains("Fire"));
+    }
+
+    @Test
+    void option5SearchByType() {
+        // Add incident, then search by type (option 2)
+        String output = runApp("1\nFire\nNorth\nn\n\n5\n2\nFire\n\n8\n");
+        assertTrue(output.contains("Fire"));
+    }
+
+    @Test
+    void option5SearchByDistrict() {
+        String output = runApp("1\nFire\nNorth\nn\n\n5\n3\nNorth\n\n8\n");
+        assertTrue(output.contains("North"));
+    }
+
+    @Test
+    void option5SearchByTypeAndDistrict() {
+        String output = runApp("1\nFire\nNorth\nn\n\n5\n1\nFire\nNorth\n\n8\n");
+        assertTrue(output.contains("Fire"));
+    }
+
+    @Test
+    void option5SearchInvalidOptionThenValid() {
+        // "99" is invalid → loops, then "2" with type
+        String output = runApp("1\nFire\nNorth\nn\n\n5\n99\n2\nFire\n\n8\n");
+        assertTrue(output.contains("Invalid option"));
+    }
+
+    @Test
+    void option5SearchNonNumericInputHandled() {
+        // "abc" triggers exception in inner loop, retries
+        String output = runApp("1\nFire\nNorth\nn\n\n5\nabc\n2\nFire\n\n8\n");
+        assertTrue(output.contains("Invalid option, please use numbers only"));
+    }
+
+    @Test
+    void option6TrendAnalysis() {
+        String output = runApp("1\nMedical\nNorth\nn\n\n6\n\n8\n");
+        assertTrue(output.contains("Union"));
+        assertTrue(output.contains("Intersection"));
+        assertTrue(output.contains("Difference"));
+    }
+
+    @Test
+    void option7SystemLogShowsEntries() {
+        // Report an incident, then view the log
+        String output = runApp("1\nFire\nNorth\nn\n\n7\n\n8\n");
+        assertTrue(output.contains("System Log:"));
+        assertTrue(output.contains("Reported Incident:"));
+    }
+
+    @Test
+    void option7SystemLogEmptyOnStart() {
+        String output = runApp("7\n\n8\n");
+        assertTrue(output.contains("System Log:"));
     }
 }
+

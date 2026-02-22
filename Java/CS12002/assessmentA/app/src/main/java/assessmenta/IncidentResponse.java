@@ -1,6 +1,5 @@
 package assessmenta;
 
-import java.time.*;
 import java.util.*;
 
 public class IncidentResponse {
@@ -8,7 +7,7 @@ public class IncidentResponse {
     private Deque<Incident> incidentQueue;
     // private Map<String, Deque<Incident>> districtIncidents;
     private Set<String> incidentTypes;
-    private Set<String> yesterdaysIncidents = Set.of("");
+    private Set<String> yesterdaysIncidents = Set.of("Medical", "Security", "Traffic");
 
     public IncidentResponse() {
         this.incidentQueue = new LinkedList<>();
@@ -17,9 +16,9 @@ public class IncidentResponse {
 
     public void addIncident(String type, String district, boolean priority) {
         if (priority) {
-            incidentQueue.addFirst(new Incident(type, district));
+            incidentQueue.addFirst(new Incident(type, district, priority));
         } else {
-            incidentQueue.addLast(new Incident(type, district));
+            incidentQueue.addLast(new Incident(type, district, priority));
         }
         incidentTypes.add(type);
     }
@@ -27,7 +26,8 @@ public class IncidentResponse {
     public void currentIncidents() {
         System.out.println("Current incidents in queue:");
         for (Incident i : incidentQueue) {
-            System.out.printf("%-40s%-15s%-15s%-8s%n", "ID", "Incident Type", "District", "Timestamp");
+            System.out.printf("%-20s%-20s%-15s%-15s%-10s%-10s%n", "ID", "Timestamp", "Incident Type", "District",
+                    "Duration", "Priority");
             System.out.println(i);
         }
     }
@@ -36,7 +36,6 @@ public class IncidentResponse {
         if (incidentQueue.isEmpty()) {
             System.out.println("No incidents to assign");
         } else {
-            System.out.printf("%-40s%-15s%-15s%-8s%n", "ID", "Incident Type", "District", "Timestamp");
             System.out.println(incidentQueue.pollFirst());
         }
     }
@@ -54,8 +53,9 @@ public class IncidentResponse {
 
     public void searchIncidentDatabase(String type, String district) {
         boolean check = false;
-        System.out.printf("", "ID", "Incident Type", "District", "Timestamp");
-
+        System.out.printf("%-20s%-20s%-15s%-15s%-10s%-10s%n", "ID", "Timestamp", "Incident Type", "District",
+                "Duration", "Priority");
+                
         if (type != null && district != null) {
             for (Incident i : incidentQueue) {
                 if (i.getType().equalsIgnoreCase(type) && i.getDistrict().equalsIgnoreCase(district)) {
@@ -89,10 +89,13 @@ public class IncidentResponse {
     }
 
     public void trendAnalysis() {
+        System.out.println("Incidents from today: " + incidentTypes);
+        System.out.println("Incidents from yesterday: " + yesterdaysIncidents);
+
         // Union of sets
         Set<String> union = new HashSet<>(incidentTypes);
         union.addAll(yesterdaysIncidents);
-        System.out.println("Union of incident types: " + union);
+        System.out.println("\nUnion of incident types: " + union);
 
         // Intersection of sets
         Set<String> intersection = new HashSet<>(incidentTypes);
@@ -104,23 +107,11 @@ public class IncidentResponse {
         difference.removeAll(yesterdaysIncidents);
         System.out.println("Difference of incident types: " + difference);
     }
-}
 
-// leave for last once everything else is done
-class SystemLog<T> {
-    private List<T> logEntries;
-
-    public SystemLog() {
-        this.logEntries = new LinkedList<>();
-    }
-
-    public void add(T entry) {
-        logEntries.add(entry);
-    }
-
-    public void printLog() {
-        for (T entry : logEntries) {
-            System.out.println(Instant.now() + ":" + entry);
+    public Incident getHeadIncident() {
+        if (incidentQueue.isEmpty()) {
+            return null;
         }
+        return incidentQueue.getFirst();
     }
 }
