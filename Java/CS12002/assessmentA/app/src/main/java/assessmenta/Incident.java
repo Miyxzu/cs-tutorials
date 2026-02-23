@@ -4,13 +4,6 @@ import java.time.*;
 import java.util.*;
 
 public class Incident {
-
-    public static void main(String[] args) {
-        Incident i = new Incident("Medical", "District 1", true);
-        System.out.printf("%-20s%-20s%-15s%-15s%-10s%-10s%n", "ID", "Timestamp", "Incident Type", "District", "Duration", "Priority");
-        System.out.println(i);
-    }
-
     private String type;
     private String district;
     private UUID id;

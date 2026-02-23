@@ -25,9 +25,9 @@ public class IncidentResponse {
 
     public void currentIncidents() {
         System.out.println("Current incidents in queue:");
+        System.out.printf("%-20s%-20s%-15s%-15s%-10s%-10s%n", "ID", "Timestamp", "Incident Type", "District",
+                "Duration", "Priority");
         for (Incident i : incidentQueue) {
-            System.out.printf("%-20s%-20s%-15s%-15s%-10s%-10s%n", "ID", "Timestamp", "Incident Type", "District",
-                    "Duration", "Priority");
             System.out.println(i);
         }
     }
@@ -55,7 +55,7 @@ public class IncidentResponse {
         boolean check = false;
         System.out.printf("%-20s%-20s%-15s%-15s%-10s%-10s%n", "ID", "Timestamp", "Incident Type", "District",
                 "Duration", "Priority");
-                
+
         if (type != null && district != null) {
             for (Incident i : incidentQueue) {
                 if (i.getType().equalsIgnoreCase(type) && i.getDistrict().equalsIgnoreCase(district)) {
