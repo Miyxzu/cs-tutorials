@@ -13,5 +13,8 @@ CSharp/general/obj/
 __pycache__/
 *.egg-info/
 
+# Java Dir Files
+Java/CS11002/assessnentFinal/projbrief/
+
 # Extra stuff
 other/Fetchr-5.3-beta5.zip
