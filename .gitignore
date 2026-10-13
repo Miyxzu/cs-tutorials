@@ -1,5 +1,6 @@
-# C++ Files
-C++/output/
+# C/C++ Files
+c-cpp/C/output/
+c-cpp/C++/output/
 
 # C# Files
 CSharp/web-server/bin/
@@ -15,3 +16,4 @@ __pycache__/
 
 # Extra stuff
 other/Fetchr-5.3-beta5.zip
+c-cpp/C/azzignment
